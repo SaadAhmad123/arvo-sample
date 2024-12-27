@@ -1,18 +1,9 @@
 {
-  "name": "@repo/contracts",
+  "name": "@repo/services",
   "version": "0.0.0",
-  "description": "The contracts for the event handler interfaces",
+  "description": "This package contains all the services used by the application",
+  "main": "index.js",
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./genaiModels": {
-      "import": "./dist/genaiModels.js",
-      "types": "./dist/genaiModels.d.ts"
-    }
-  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
@@ -25,7 +16,9 @@
     "@repo/tsconfig": "workspace:*"
   },
   "dependencies": {
+    "@repo/contracts": "workspace:*",
     "arvo-core": "^2.2.0",
-    "zod": "^3.24.1"
+    "arvo-event-handler": "^2.2.0",
+    "openai": "^4.77.0"
   }
 }

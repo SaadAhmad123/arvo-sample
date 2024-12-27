@@ -1,16 +1,20 @@
 {
-  "name": "@repo/contracts",
+  "name": "@repo/utilities",
   "version": "0.0.0",
-  "description": "The contracts for the event handler interfaces",
+  "description": "The common component shared across packages",
   "type": "module",
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./genaiModels": {
-      "import": "./dist/genaiModels.js",
-      "types": "./dist/genaiModels.d.ts"
+    "./commons": {
+      "import": "./dist/commons/index.js",
+      "types": "./dist/commons/index.d.ts"
+    },
+    "./prompts": {
+      "import": "./dist/prompts/index.js",
+      "types": "./dist/prompts/index.d.ts"
     }
   },
   "scripts": {
