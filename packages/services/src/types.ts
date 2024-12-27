@@ -1,3 +1,5 @@
+import type { ArvoEvent } from 'arvo-core';
+
 export type ServiceSettings = {
   OPENAI_API_KEY: string;
   OPENAI_ORG_ID: string;
@@ -6,5 +8,5 @@ export type ServiceSettings = {
 
 export type EventHandlerFactoryParams = {
   settings: ServiceSettings;
-  streamer: () => void;
+  streamer?: (data: Record<string, unknown>, event: ArvoEvent) => Promise<void>;
 };

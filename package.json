@@ -5,8 +5,8 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "test": "turbo test",
-    "biome": "biome check --fix",
-    "biome:check": "biome check"
+    "lint": "biome check --fix",
+    "format": "biome format --fix"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

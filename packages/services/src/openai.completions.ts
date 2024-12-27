@@ -1,5 +1,12 @@
-import { createArvoEventHandler, type EventHandlerFactory } from 'arvo-event-handler';
 import * as contracts from '@repo/contracts';
+import { parseJSON } from '@repo/utilities';
+import { llmJsonIntent } from '@repo/utilities/prompts';
+import { exceptionToSpan, logToSpan } from 'arvo-core';
+import { type EventHandlerFactory, createArvoEventHandler } from 'arvo-event-handler';
+import OpenAI from 'openai';
+import type { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
+import { openaiRates } from './commons/ratecards/openai.js';
+import { serviceRate } from './commons/ratecards/service.js';
 import type { EventHandlerFactoryParams } from './types.js';
 
 export const openaiCompletions: EventHandlerFactory<EventHandlerFactoryParams> = (param) =>
@@ -7,57 +14,14 @@ export const openaiCompletions: EventHandlerFactory<EventHandlerFactoryParams> =
     contract: contracts.openaiCompletions,
     executionunits: 0.1,
     handler: {
-      '1.0.0': async ({ event }) => {},
-    },
-  });
-
-/*
-import { createArvoEventHandler } from 'arvo-event-handler';
-
-import { ChatCompletionMessageParam } from 'openai/resources';
-import { exceptionToSpan, logToSpan } from 'arvo-core';
-import { OpenAISecret } from './types';
-import * as dotenv from 'dotenv';
-import { ServiceContracts } from '../../Contracts';
-import {
-  RateCards,
-  ServiceFactory,
-  OpenTelemetry,
-  PromptFactories,
-  parseJSON,
-} from '../../Commons';
-
-dotenv.config();
-
-export const openaiCompletions: ServiceFactory<OpenAISecret> = (
-  secretLoader = () => ({
-    apiKey: process.env.OPENAI_KEY ?? '',
-    organizationId: process.env.OPENAI_ORG_ID ?? '',
-    projectId: process.env.OPENAI_PROJ_ID ?? '',
-  }),
-  streamer,
-) =>
-  createArvoEventHandler({
-    contract: ServiceContracts.openaiCompletions,
-    executionunits: RateCards.serviceRateCard(),
-    handler: async ({ event }) => {
-      const secrets = await secretLoader();
-      
-    },
-  });
-
-*/
-
-/**
- * 
- * 
+      '1.0.0': async ({ event }) => {
         // Initialize the OpenAI client with provided parameters
         const openai = new OpenAI({
           apiKey: param.settings.OPENAI_API_KEY,
           organization: param.settings.OPENAI_ORG_ID,
           project: param.settings.OPENAI_PROJECT_ID,
         });
-        const jsonUsageIntent = event.data.json_response ? PromptFactories.jsonUsageIntent({}) : '';
+        const jsonUsageIntent = event.data.json_response ? llmJsonIntent.build({}) : '';
 
         // Create a stream for chat completions
         const stream = await openai.chat.completions.create({
@@ -123,37 +87,27 @@ export const openaiCompletions: ServiceFactory<OpenAISecret> = (
             });
           }
 
-          await streamer?.(
-            {
-              type: `stream.openai.completion`,
-              data: {
-                delta: textDelta ?? '',
-                text: response,
+          await param
+            .streamer?.(
+              {
+                type: 'stream.openai.completion',
+                data: {
+                  delta: textDelta ?? '',
+                  text: response,
+                },
               },
-            },
-            event,
-          ).catch((e) => exceptionToSpan(e));
+              event,
+            )
+            .catch((e) => exceptionToSpan(e));
         }
 
         const totalTime = performance.now() - startTime;
         const averageTokenTime = (totalTime - timeToFirstToken) / (outputTokens - 1);
-        const totalLlmCost = RateCards.openaiRateCards[event.data.model]?.(inputTokens, outputTokens) ?? 0;
-
-        OpenTelemetry.setOpenInferenceTraceAttributes({
-          event: event,
-          inputTokens,
-          outputTokens,
-          response,
-          finishReason,
-          timeToFirstToken,
-          totalTime,
-          averageTokenTime,
-          totalLlmCost: totalLlmCost,
-        });
+        const totalLlmCost = openaiRates[event.data.model]?.(inputTokens, outputTokens) ?? 0;
 
         return {
           type: 'evt.openai.completions.success',
-          executionunits: RateCards.serviceRateCard() + totalLlmCost,
+          executionunits: serviceRate() + totalLlmCost,
           data: {
             json_valid: event.data.json_response ? Boolean(parseJSON(response)) : null,
             message: {
@@ -175,5 +129,6 @@ export const openaiCompletions: ServiceFactory<OpenAISecret> = (
             stop_reason: finishReason,
           },
         };
-      
- */
+      },
+    },
+  });

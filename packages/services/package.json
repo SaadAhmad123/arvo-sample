@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@repo/contracts": "workspace:*",
+    "@repo/utilities": "workspace:*",
     "arvo-core": "^2.2.0",
     "arvo-event-handler": "^2.2.0",
     "openai": "^4.77.0"

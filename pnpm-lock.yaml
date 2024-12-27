@@ -39,6 +39,9 @@ importers:
       '@repo/contracts':
         specifier: workspace:*
         version: link:../contracts
+      '@repo/utilities':
+        specifier: workspace:*
+        version: link:../utilities
       arvo-core:
         specifier: ^2.2.0
         version: 2.2.0
