@@ -1,5 +1,5 @@
 {
-  "name": "turborepo",
+  "name": "arvo_sample",
   "private": true,
   "scripts": {
     "build": "turbo build",
