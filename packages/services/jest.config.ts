@@ -1,7 +1,7 @@
 import type { Config } from 'jest';
 
 const config: Config = {
-  displayName: 'Contracts',
+  displayName: 'Services',
   testEnvironment: 'node',
   clearMocks: true,
   verbose: true,

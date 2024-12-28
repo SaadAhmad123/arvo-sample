@@ -1,5 +1,5 @@
 import { cleanString } from 'arvo-core';
-import { createPromptFactory } from 'src/commons/PromptFactory/helpers.js';
+import { createPromptFactory } from '../commons/PromptFactory/helpers.js';
 import { z } from 'zod';
 
 // biome-ignore lint/correctness/noEmptyPattern: I understand but this is in-evitable

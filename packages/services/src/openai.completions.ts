@@ -1,4 +1,4 @@
-import * as contracts from '@repo/contracts';
+import { openaiCompletions as openaiCompletionsContract } from '@repo/contracts';
 import { parseJSON } from '@repo/utilities';
 import { llmJsonIntent } from '@repo/utilities/prompts';
 import { exceptionToSpan, logToSpan } from 'arvo-core';
@@ -11,7 +11,7 @@ import type { EventHandlerFactoryParams } from './types.js';
 
 export const openaiCompletions: EventHandlerFactory<EventHandlerFactoryParams> = (param) =>
   createArvoEventHandler({
-    contract: contracts.openaiCompletions,
+    contract: openaiCompletionsContract,
     executionunits: 0.1,
     handler: {
       '1.0.0': async ({ event }) => {
