@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch --preserveWatchOutput"
   },
   "keywords": [],
   "author": "Saad Ahmad <saadkwi12@hotmail.com>",

@@ -7,6 +7,6 @@ export type ServiceSettings = {
 };
 
 export type EventHandlerFactoryParams = {
-  settings: ServiceSettings;
+  settings: () => Promise<ServiceSettings>;
   streamer?: (data: Record<string, unknown>, event: ArvoEvent) => Promise<void>;
 };

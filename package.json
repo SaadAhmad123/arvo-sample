@@ -5,11 +5,13 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "test": "turbo test",
+    "test:watch": "turbo test:watch",
     "lint": "biome check --fix",
     "format": "biome format --fix"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "concurrently": "^9.1.1",
     "ts-node": "^10.9.2",
     "turbo": "^2.2.3",
     "typescript": "5.5.4"

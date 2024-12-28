@@ -16,10 +16,11 @@ export const openaiCompletions: EventHandlerFactory<EventHandlerFactoryParams> =
     handler: {
       '1.0.0': async ({ event }) => {
         // Initialize the OpenAI client with provided parameters
+        const settings = await param.settings();
         const openai = new OpenAI({
-          apiKey: param.settings.OPENAI_API_KEY,
-          organization: param.settings.OPENAI_ORG_ID,
-          project: param.settings.OPENAI_PROJECT_ID,
+          apiKey: settings.OPENAI_API_KEY,
+          organization: settings.OPENAI_ORG_ID,
+          project: settings.OPENAI_PROJECT_ID,
         });
         const jsonUsageIntent = event.data.json_response ? llmJsonIntent.build({}) : '';
 
@@ -106,7 +107,7 @@ export const openaiCompletions: EventHandlerFactory<EventHandlerFactoryParams> =
         const totalLlmCost = openaiRates[event.data.model]?.(inputTokens, outputTokens) ?? 0;
 
         return {
-          type: 'evt.openai.completions.success',
+          type: 'evt.openai.completions.success' as const,
           executionunits: serviceRate() + totalLlmCost,
           data: {
             json_valid: event.data.json_response ? Boolean(parseJSON(response)) : null,

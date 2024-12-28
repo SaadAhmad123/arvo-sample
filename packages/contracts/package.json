@@ -15,8 +15,9 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch",
-    "test": "jest --passWithNoTests --runInBand --detectOpenHandles --forceExit"
+    "dev": "tsc --watch --preserveWatchOutput",
+    "test": "jest --passWithNoTests --runInBand --detectOpenHandles --forceExit",
+    "test:watch": "concurrently \"tsc --watch --preserveWatchOutput\" \"jest --watch\" -n \"tsc,jest\" -c \"blue,green\""
   },
   "keywords": [],
   "author": "Saad Ahmad <saadkwi12@hotmail.com>",

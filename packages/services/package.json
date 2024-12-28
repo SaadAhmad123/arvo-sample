@@ -2,12 +2,18 @@
   "name": "@repo/services",
   "version": "0.0.0",
   "description": "This package contains all the services used by the application",
-  "main": "index.js",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch",
-    "test": "jest --passWithNoTests --runInBand --detectOpenHandles --forceExit"
+    "dev": "tsc --watch --preserveWatchOutput",
+    "test": "jest --passWithNoTests --runInBand --detectOpenHandles --forceExit",
+    "test:watch": "concurrently \"tsc --watch --preserveWatchOutput\" \"jest --watch\" -n \"tsc,jest\" -c \"blue,green\""
   },
   "keywords": [],
   "author": "Saad Ahmad <saadkwi12@hotmail.com>",
