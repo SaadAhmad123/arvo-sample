@@ -1,0 +1,20 @@
+/**
+ * Test-specific TypeScript configuration that enables type checking and IDE support
+ * for test files while preventing them from being emitted during compilation.
+ *
+ * Key points:
+ * - Extends base tsconfig for consistent settings
+ * - Sets noEmit to prevent test files from being compiled
+ * - Includes both test files and source files for proper type resolution
+ * - Enables IDE features like IntelliSense and type checking
+ *
+ * This separate config is needed because TypeScript requires explicit test file
+ * inclusion for type checking while still excluding them from builds.
+ */
+{
+  "extends": "@repo/tsconfig/base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["**/*.ts", "../src/**/*.ts"]
+}

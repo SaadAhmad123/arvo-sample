@@ -28,3 +28,7 @@ format:
 # Run the biome linter over the code
 lint:
   pnpm run lint
+
+# Run the jest tests for all the packages
+test:
+  pnpm run test

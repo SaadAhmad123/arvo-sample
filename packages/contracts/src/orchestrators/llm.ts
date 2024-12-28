@@ -1,5 +1,5 @@
 import { createArvoOrchestratorContract } from 'arvo-core';
-import { createOrchestratorCompletionSchema } from 'src/commons/schema.orchestrator.complete.js';
+import { createOrchestratorCompletionSchema } from '../commons/schema.orchestrator.complete.js';
 import { z } from 'zod';
 import * as LLMs from '../commons/genai.llms.js';
 import * as BaseGenAISchema from '../commons/schema.base.genai.js';
