@@ -1,7 +1,14 @@
 import type { ServiceSettings } from '../src/types.js';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-export const getMockSettings: () => Promise<ServiceSettings> = async () => ({
-  OPENAI_API_KEY: 'MOCK',
-  OPENAI_ORG_ID: 'MOCK',
-  OPENAI_PROJECT_ID: 'MOCK',
-});
+export const getMockSettingsFactory: (mock?: boolean) => () => Promise<ServiceSettings> =
+  (mock = false) =>
+  async () => {
+    const env: NodeJS.ProcessEnv | null = !mock ? (process.env ?? null) : null;
+    return {
+      OPENAI_API_KEY: env?.OPENAI_API_KEY ?? 'MOCK',
+      OPENAI_ORG_ID: env?.OPENAI_ORG_ID ?? 'MOCK',
+      OPENAI_PROJECT_ID: env?.OPENAI_PROJECT_ID ?? 'MOCK',
+    };
+  };

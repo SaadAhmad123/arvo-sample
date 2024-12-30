@@ -11,6 +11,14 @@
     "./genaiModels": {
       "import": "./dist/genaiModels.js",
       "types": "./dist/genaiModels.d.ts"
+    },
+    "./services": {
+      "import": "./dist/services/index.js",
+      "types": "./dist/services/index.d.ts"
+    },
+    "./orchestrators": {
+      "import": "./dist/orchestrators/index.js",
+      "types": "./dist/orchestrators/index.d.ts"
     }
   },
   "scripts": {
@@ -30,7 +38,7 @@
     "ts-jest": "^29.2.5"
   },
   "dependencies": {
-    "arvo-core": "^2.2.0",
+    "arvo-core": "^2.2.2",
     "zod": "^3.24.1"
   }
 }

@@ -1,3 +1,2 @@
-export { openaiCompletions } from './services/openai.completions.js';
-export { anthropicCompletions } from './services/anthropic.completions.js';
-export { llmOrchestrator } from './orchestrators/llm.js';
+export * as services from './services/index.js';
+export * as orchestrators from './orchestrators/index.js';
