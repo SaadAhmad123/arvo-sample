@@ -1,5 +1,5 @@
-import type { ServiceSettings } from '../src/types.js';
 import * as dotenv from 'dotenv';
+import type { ServiceSettings } from '../src/types.js';
 dotenv.config();
 
 export const getMockSettingsFactory: (mock?: boolean) => () => Promise<ServiceSettings> =

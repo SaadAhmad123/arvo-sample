@@ -19,6 +19,10 @@
     "./orchestrators": {
       "import": "./dist/orchestrators/index.js",
       "types": "./dist/orchestrators/index.d.ts"
+    },
+    "./streams": {
+      "import": "./dist/streams/index.js",
+      "types": "./dist/streams/index.d.ts"
     }
   },
   "scripts": {

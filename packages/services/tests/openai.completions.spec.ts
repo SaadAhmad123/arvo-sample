@@ -1,11 +1,11 @@
-import * as ServiceFactories from '../src/index.js';
 import * as ServiceContracts from '@repo/contracts/services';
-import { createArvoEventFactory, type InferVersionedArvoContract, type VersionedArvoContract } from 'arvo-core';
-import { telemetrySdkStart, telemetrySdkStop } from './otel.js';
-import { getMockSettingsFactory } from './mock.settings.js';
+import { type InferVersionedArvoContract, type VersionedArvoContract, createArvoEventFactory } from 'arvo-core';
 import * as dotenv from 'dotenv';
-import { serviceRate } from '../src/commons/ratecards/service.js';
 import { openaiRates } from '../src/commons/ratecards/openai.js';
+import { serviceRate } from '../src/commons/ratecards/service.js';
+import * as ServiceFactories from '../src/index.js';
+import { getMockSettingsFactory } from './mock.settings.js';
+import { telemetrySdkStart, telemetrySdkStop } from './otel.js';
 dotenv.config();
 
 describe('openai.completions', () => {

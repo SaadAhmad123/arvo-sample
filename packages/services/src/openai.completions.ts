@@ -1,7 +1,8 @@
 import { openaiCompletions as openaiCompletionsContract } from '@repo/contracts/services';
+import { openaiCompletionStream } from '@repo/contracts/streams';
 import { parseJSON } from '@repo/utilities';
 import { llmJsonIntent } from '@repo/utilities/prompts';
-import { exceptionToSpan, logToSpan } from 'arvo-core';
+import { createArvoEventFactory, exceptionToSpan, logToSpan } from 'arvo-core';
 import { type EventHandlerFactory, createArvoEventHandler } from 'arvo-event-handler';
 import OpenAI from 'openai';
 import type { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
@@ -9,7 +10,9 @@ import { openaiRates } from './commons/ratecards/openai.js';
 import { serviceRate } from './commons/ratecards/service.js';
 import type { EventHandlerFactoryParams } from './types.js';
 
-export const openaiCompletions: EventHandlerFactory<EventHandlerFactoryParams> = (param) =>
+export const openaiCompletions: EventHandlerFactory<
+  EventHandlerFactoryParams<'OPENAI_API_KEY' | 'OPENAI_ORG_ID' | 'OPENAI_PROJECT_ID'>
+> = (param) =>
   createArvoEventHandler({
     contract: openaiCompletionsContract,
     executionunits: serviceRate(),
@@ -90,13 +93,14 @@ export const openaiCompletions: EventHandlerFactory<EventHandlerFactoryParams> =
 
           await param
             .streamer?.(
-              {
-                type: 'stream.openai.completion',
+              createArvoEventFactory(openaiCompletionStream.version('1.0.0')).accepts({
+                subject: event.subject,
+                source: event.type,
                 data: {
                   delta: textDelta ?? '',
                   text: response,
                 },
-              },
+              }),
               event,
             )
             .catch((e) => exceptionToSpan(e));

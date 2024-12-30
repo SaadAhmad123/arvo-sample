@@ -1,4 +1,10 @@
-import type { ArvoEvent } from 'arvo-core';
+import type {
+  ArvoContract,
+  ArvoEvent,
+  ArvoSemanticVersion,
+  InferVersionedArvoContract,
+  VersionedArvoContract,
+} from 'arvo-core';
 
 export type ServiceSettings = {
   OPENAI_API_KEY: string;
@@ -6,7 +12,12 @@ export type ServiceSettings = {
   OPENAI_PROJECT_ID: string;
 };
 
-export type EventHandlerFactoryParams = {
-  settings: () => Promise<ServiceSettings>;
-  streamer?: (data: Record<string, unknown>, event: ArvoEvent) => Promise<void>;
+export type EventHandlerFactoryParams<
+  TSettingKeys extends keyof ServiceSettings = keyof ServiceSettings,
+  TStreamContract extends InferVersionedArvoContract<
+    VersionedArvoContract<ArvoContract, ArvoSemanticVersion>
+  > = InferVersionedArvoContract<VersionedArvoContract<ArvoContract, ArvoSemanticVersion>>,
+> = {
+  settings: () => Promise<Pick<ServiceSettings, TSettingKeys>>;
+  streamer?: (data: TStreamContract['accepts'], event: ArvoEvent) => Promise<void>;
 };
