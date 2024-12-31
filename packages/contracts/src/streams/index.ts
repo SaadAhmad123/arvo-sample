@@ -1,1 +1,1 @@
-export { openaiCompletionStream } from './openai.completions.js';
+export { llmCompletionStream } from './llm.completions.js';

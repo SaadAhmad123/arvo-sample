@@ -1,12 +1,12 @@
 import * as ServiceContracts from '@repo/contracts/services';
 import { type InferVersionedArvoContract, type VersionedArvoContract, createArvoEventFactory } from 'arvo-core';
-import { openaiRates } from '../src/ratecards/openai.js';
+import { anthropicRates } from '../src/ratecards/anthropic.js';
 import { serviceRate } from '../src/ratecards/service.js';
 import * as ServiceFactories from '../src/index.js';
 import { getMockSettingsFactory } from './mock.settings.js';
 import { telemetrySdkStart, telemetrySdkStop } from './otel.js';
 
-describe('openai.completions', () => {
+describe('anthropic.completions', () => {
   beforeAll(async () => {
     await telemetrySdkStart();
   });
@@ -15,17 +15,22 @@ describe('openai.completions', () => {
     await telemetrySdkStop();
   });
 
-  const handler = ServiceFactories.openaiCompletions({
+  const handler = ServiceFactories.anthropicCompletions({
     settings: getMockSettingsFactory(),
   });
-  const invalidHandler = ServiceFactories.openaiCompletions({
+  const invalidHandler = ServiceFactories.anthropicCompletions({
     settings: getMockSettingsFactory(true),
   });
 
-  const contract = ServiceContracts.openaiCompletions;
+  const contract = ServiceContracts.anthropicCompletions;
   const models: InferVersionedArvoContract<
     VersionedArvoContract<typeof contract, '1.0.0'>
-  >['accepts']['data']['model'][] = ['gpt-4o-mini', 'gpt-4o', 'gpt-4-turbo'];
+  >['accepts']['data']['model'][] = [
+    'claude-3-haiku-20240307',
+    'claude-3-sonnet-20240229',
+    'claude-3-5-sonnet-20240620',
+    'claude-3-opus-20240229',
+  ];
 
   for (const model of [models[0]]) {
     it(`should work with model ${model}`, async () => {
@@ -47,9 +52,9 @@ describe('openai.completions', () => {
       const responses = await handler.execute(event, { inheritFrom: 'EVENT' });
 
       expect(responses.length).toBe(1);
-      expect(responses[0]?.type).toBe('evt.openai.completions.success');
+      expect(responses[0]?.type).toBe('evt.anthropic.completions.success');
       expect(responses[0]?.subject).toBe('test');
-      expect(responses[0]?.source).toBe('com.openai.completions');
+      expect(responses[0]?.source).toBe('com.anthropic.completions');
       expect(responses[0]?.to).toBe('test');
       expect(responses[0]?.data.stop_reason).toBe('stop');
       expect(responses[0]?.data.usage.tokens.prompt).toBeGreaterThan(0);
@@ -66,13 +71,13 @@ describe('openai.completions', () => {
       );
       expect(responses[0]?.executionunits).toStrictEqual(
         serviceRate() +
-          openaiRates[model ?? 'gpt-4-turbo'](
+          anthropicRates[model ?? 'claude-3-5-sonnet-20240620'](
             responses[0]?.data.usage.tokens.prompt ?? 0,
             responses[0]?.data.usage.tokens.completion ?? 0,
           ),
       );
       expect((responses[0]?.executionunits ?? 0) - serviceRate()).toStrictEqual(
-        openaiRates[model ?? 'gpt-4-turbo'](
+        anthropicRates[model ?? 'claude-3-5-sonnet-20240620'](
           responses[0]?.data.usage.tokens.prompt ?? 0,
           responses[0]?.data.usage.tokens.completion ?? 0,
         ),
@@ -102,9 +107,9 @@ describe('openai.completions', () => {
       const responses = await handler.execute(event, { inheritFrom: 'EVENT' });
 
       expect(responses.length).toBe(1);
-      expect(responses[0]?.type).toBe('evt.openai.completions.success');
+      expect(responses[0]?.type).toBe('evt.anthropic.completions.success');
       expect(responses[0]?.subject).toBe('test');
-      expect(responses[0]?.source).toBe('com.openai.completions');
+      expect(responses[0]?.source).toBe('com.anthropic.completions');
       expect(responses[0]?.to).toBe('test');
       expect(responses[0]?.data.stop_reason).toBe('length');
       expect(responses[0]?.data.usage.tokens.prompt).toBeGreaterThan(0);
@@ -146,9 +151,9 @@ describe('openai.completions', () => {
       const responses = await handler.execute(event, { inheritFrom: 'EVENT' });
 
       expect(responses.length).toBe(1);
-      expect(responses[0]?.type).toBe('evt.openai.completions.success');
+      expect(responses[0]?.type).toBe('evt.anthropic.completions.success');
       expect(responses[0]?.subject).toBe('test');
-      expect(responses[0]?.source).toBe('com.openai.completions');
+      expect(responses[0]?.source).toBe('com.anthropic.completions');
       expect(responses[0]?.to).toBe('test');
       expect(responses[0]?.data.stop_reason).toBe('stop');
       expect(responses[0]?.data.usage.tokens.prompt).toBeGreaterThan(0);
@@ -192,14 +197,14 @@ describe('openai.completions', () => {
     const responses = await invalidHandler.execute(event, { inheritFrom: 'EVENT' });
 
     expect(responses.length).toBe(1);
-    expect(responses[0]?.type).toBe('sys.com.openai.completions.error');
+    expect(responses[0]?.type).toBe('sys.com.anthropic.completions.error');
     expect(responses[0]?.subject).toBe('test');
-    expect(responses[0]?.source).toBe('com.openai.completions');
+    expect(responses[0]?.source).toBe('com.anthropic.completions');
     expect(responses[0]?.to).toBe('test');
 
     expect(responses[0]?.data.errorName).toBe('Error');
     expect(responses[0]?.data.errorMessage).toBe(
-      '401 Incorrect API key provided: MOCK. You can find your API key at https://platform.openai.com/account/api-keys.',
+      '401 {"type":"error","error":{"type":"authentication_error","message":"invalid x-api-key"}}',
     );
     expect(responses[0]?.data.errorStack).toBeDefined();
 

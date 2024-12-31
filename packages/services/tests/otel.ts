@@ -7,7 +7,9 @@ import { NodeSDK } from '@opentelemetry/sdk-node';
 import { ConsoleSpanExporter } from '@opentelemetry/sdk-trace-node';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 import * as dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({
+  path: '../../.env',
+});
 
 diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.INFO);
 
