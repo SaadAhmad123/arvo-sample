@@ -1,5 +1,5 @@
 import * as services from '../src/index.js';
-import { getMockSettingsFactory } from './mock.settings.js';
+import { getMockSettingsFactory } from './utils/mock.settings.js';
 
 describe('Validating package exports', () => {
   it('should export handlers with unique sources', () => {

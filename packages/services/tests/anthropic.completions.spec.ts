@@ -3,8 +3,8 @@ import { type InferVersionedArvoContract, type VersionedArvoContract, createArvo
 import { anthropicRates } from '../src/ratecards/anthropic.js';
 import { serviceRate } from '../src/ratecards/service.js';
 import * as ServiceFactories from '../src/index.js';
-import { getMockSettingsFactory } from './mock.settings.js';
-import { telemetrySdkStart, telemetrySdkStop } from './otel.js';
+import { getMockSettingsFactory } from './utils/mock.settings.js';
+import { telemetrySdkStart, telemetrySdkStop } from './utils/otel.js';
 
 describe('anthropic.completions', () => {
   beforeAll(async () => {

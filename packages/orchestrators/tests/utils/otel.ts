@@ -61,5 +61,7 @@ export const telemetrySdkStart = async () => {
 };
 
 export const telemetrySdkStop = async () => {
-  await telemetrySdk?.shutdown();
+  try {
+    await telemetrySdk?.shutdown();
+  } catch {}
 };
