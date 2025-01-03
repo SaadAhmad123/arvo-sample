@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Roboto_Flex, Roboto_Serif } from 'next/font/google';
 import './globals.css';
+import '@repo/material-ui/index.css';
 
 const robotoFlex = Roboto_Flex({
   variable: '--font-roboto-flex',
@@ -24,7 +25,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${robotoFlex.variable} ${robotoSerif.variable} antialiased font-sans bg-surface text-on-surface`}>{children}</body>
+      <body
+        className={`${robotoFlex.variable} ${robotoSerif.variable} antialiased font-sans bg-surface text-on-surface`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

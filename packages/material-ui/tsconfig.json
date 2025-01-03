@@ -1,14 +1,10 @@
 {
   "extends": "@repo/tsconfig/react.ui.json",
   "compilerOptions": {
-    "composite": true,
     "incremental": null,
     "jsx": "react-jsx",
-    "declaration": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "declaration": true
   },
-  "include": ["src", "**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "tailwind.config.ts", "tsup.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
