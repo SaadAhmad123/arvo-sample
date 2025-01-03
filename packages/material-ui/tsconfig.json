@@ -1,6 +1,8 @@
 {
   "extends": "@repo/tsconfig/react.ui.json",
   "compilerOptions": {
+    "composite": true,
+    "incremental": null,
     "jsx": "react-jsx",
     "declaration": true,
     "paths": {
