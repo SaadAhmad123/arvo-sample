@@ -1,0 +1,12 @@
+{
+  "extends": "@repo/tsconfig/react.ui.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "declaration": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src", "**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

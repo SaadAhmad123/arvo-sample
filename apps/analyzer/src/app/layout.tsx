@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={`${robotoFlex.variable} ${robotoSerif.variable} antialiased`}>{children}</body>
+      <body className={`${robotoFlex.variable} ${robotoSerif.variable} antialiased font-sans bg-surface text-on-surface`}>{children}</body>
     </html>
   );
 }

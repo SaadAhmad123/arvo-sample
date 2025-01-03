@@ -1,6 +1,8 @@
 import type { Config } from 'tailwindcss';
-
 import { MaterialThemeBuilder } from '@repo/utilities';
+
+const themeBuilder = new MaterialThemeBuilder({ source: 'color', color: '#F1C40F' });
+const tailwindVars = themeBuilder.createTailwindVariables('light');
 
 const config: Config = {
   content: [
@@ -10,7 +12,8 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: new MaterialThemeBuilder().createTailwindColorVariables('light'),
+      colors: tailwindVars.colors,
+      boxShadow: tailwindVars.boxShadow,
       fontFamily: {
         sans: ['var(--font-roboto-flex)', 'sans'],
         serif: ['var(--font-roboto-serif)', 'sans-serif'],

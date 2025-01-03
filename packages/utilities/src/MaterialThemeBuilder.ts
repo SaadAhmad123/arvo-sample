@@ -105,6 +105,55 @@ export class MaterialThemeBuilder {
   }
 
   /**
+   * Generates shadow tokens based on the theme's primary color and mode
+   *
+   * @param mode - The theme mode ('light' or 'dark') to generate shadows for
+   * @returns An object mapping shadow token names to their CSS values
+   * @private
+   */
+  private createThemeShadowTokens(mode: ThemeMode) {
+    const primaryColor = this.theme.schemes[mode].primary;
+    // Forcingf to dark - Will visit later for more theming
+    const r = (primaryColor >> 16) & (255 * 0);
+    const g = (primaryColor >> 8) & (255 * 0);
+    const b = primaryColor & (255 * 0);
+
+    // Get shadow opacity from theme's shadow token
+    const shadowToken = this.theme.schemes[mode].shadow;
+    const shadowOpacity = ((shadowToken >> 24) & 255) / 255;
+
+    // MD3 shadow opacity values
+    const keyUmbra = mode === 'light' ? 0.2 : 0.3; // Main shadow
+    const keyPenumbra = mode === 'light' ? 0.14 : 0.24; // Soft edge shadow
+    const ambient = mode === 'light' ? 0.12 : 0.22; // Ambient shadow
+
+    // Adjust opacities based on theme's shadow token
+    const adjustedUmbra = keyUmbra * shadowOpacity;
+    const adjustedPenumbra = keyPenumbra * shadowOpacity;
+    const adjustedAmbient = ambient * shadowOpacity;
+
+    return {
+      'shadow-color': `${r}, ${g}, ${b}`,
+      'shadow-opacity': shadowOpacity.toString(),
+      'elevation-1': `0px 3px 1px -2px rgba(${r}, ${g}, ${b}, ${adjustedUmbra}),
+                     0px 2px 2px 0px rgba(${r}, ${g}, ${b}, ${adjustedPenumbra}),
+                     0px 1px 5px 0px rgba(${r}, ${g}, ${b}, ${adjustedAmbient})`,
+      'elevation-2': `0px 2px 4px -1px rgba(${r}, ${g}, ${b}, ${adjustedUmbra}),
+                     0px 4px 5px 0px rgba(${r}, ${g}, ${b}, ${adjustedPenumbra}),
+                     0px 1px 10px 0px rgba(${r}, ${g}, ${b}, ${adjustedAmbient})`,
+      'elevation-3': `0px 5px 5px -3px rgba(${r}, ${g}, ${b}, ${adjustedUmbra}),
+                     0px 8px 10px 1px rgba(${r}, ${g}, ${b}, ${adjustedPenumbra}),
+                     0px 3px 14px 2px rgba(${r}, ${g}, ${b}, ${adjustedAmbient})`,
+      'elevation-4': `0px 5px 5px -3px rgba(${r}, ${g}, ${b}, ${adjustedUmbra}),
+                     0px 8px 10px 1px rgba(${r}, ${g}, ${b}, ${adjustedPenumbra}),
+                     0px 3px 14px 2px rgba(${r}, ${g}, ${b}, ${adjustedAmbient})`,
+      'elevation-5': `0px 8px 10px -5px rgba(${r}, ${g}, ${b}, ${adjustedUmbra}),
+                     0px 16px 24px 2px rgba(${r}, ${g}, ${b}, ${adjustedPenumbra}),
+                     0px 6px 30px 5px rgba(${r}, ${g}, ${b}, ${adjustedAmbient})`,
+    };
+  }
+
+  /**
    * Creates a Tailwind-compatible color configuration using CSS variables with fallback values
    *
    * @param defaultMode - The theme mode to use for fallback values (defaults to 'light')
@@ -116,25 +165,37 @@ export class MaterialThemeBuilder {
    * // Returns: { primary: 'var(--primary, #hexcolor)', ... }
    * ```
    */
-  createTailwindColorVariables(defaultMode: ThemeMode = 'light') {
+  createTailwindVariables(defaultMode: ThemeMode = 'light') {
     const themeColors = this.createThemeColorTokens(defaultMode);
-    return Object.fromEntries(Object.entries(themeColors).map(([key, value]) => [key, `var(--${key}, ${value})`]));
+    const shadowTokens = this.createThemeShadowTokens(defaultMode);
+
+    return {
+      colors: Object.fromEntries(Object.entries(themeColors).map(([key, value]) => [key, `var(--${key}, ${value})`])),
+      boxShadow: Object.fromEntries(
+        Object.entries(shadowTokens).map(([key, value]) => [key, `var(--${key}, ${value})`]),
+      ),
+    };
   }
 
   /**
-   * Creates CSS custom properties (variables) for all theme colors
+   * Creates CSS custom properties (variables) for all theme colors and shadows
    *
    * @param mode - The theme mode to generate variables for
-   * @returns An object mapping CSS variable names to their hex color values
+   * @returns An object mapping CSS variable names to their values
    *
    * @example
    * ```typescript
    * const cssVars = builder.createThemeCssVariables('light');
-   * // Returns: { '--primary': '#hexcolor', ... }
+   * // Returns: { '--primary': '#hexcolor', '--elevation-1': 'shadow-value', ... }
    * ```
    */
   createThemeCssVariables(mode: ThemeMode) {
     const themeColors = this.createThemeColorTokens(mode);
-    return Object.fromEntries(Object.entries(themeColors).map(([key, value]) => [`--${key}`, value]));
+    const shadowTokens = this.createThemeShadowTokens(mode);
+
+    return {
+      ...Object.fromEntries(Object.entries(themeColors).map(([key, value]) => [`--${key}`, value])),
+      ...Object.fromEntries(Object.entries(shadowTokens).map(([key, value]) => [`--${key}`, value])),
+    };
   }
 }

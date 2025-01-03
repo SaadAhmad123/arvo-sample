@@ -2,6 +2,7 @@
   "name": "@repo/orchestrators",
   "version": "0.0.0",
   "description": "This package contains all the orchestrator services used by the application",
+  "private": true,
   "type": "module",
   "exports": {
     ".": {

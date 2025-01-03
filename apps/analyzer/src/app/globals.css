@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  color: var(--on-background);
-  background: var(--background);
+html {
+  color: var(--on-surface);
+  background: var(--surface);
 }
