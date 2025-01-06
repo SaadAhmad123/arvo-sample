@@ -41,7 +41,7 @@ export const FAB: React.FC<IFAB> = ({
   // State layer opacities according to MD3
   const stateClasses = disabled
     ? 'opacity-38 cursor-not-allowed'
-    : 'hover:shadow-elevation-4 active:shadow-elevation-2 active:scale-95';
+    : 'hover:shadow-elevation-4 active:shadow-elevation-2 active:scale-95 active:bg-secondary active:text-on-secondary';
 
   return (
     <button
@@ -53,9 +53,9 @@ export const FAB: React.FC<IFAB> = ({
         ${sizeClasses[size]}
         ${variantClasses[variant]}
         rounded-2xl
-        shadow-elevation-3
+        shadow-elevation-2
         flex items-center justify-center
-        transition-all duration-200
+        transition-all duration-100
         focus:outline-none
         focus-visible:ring-2 focus-visible:ring-primary/25
         ${stateClasses}
