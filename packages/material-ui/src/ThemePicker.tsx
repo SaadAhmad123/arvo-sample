@@ -112,7 +112,7 @@ export const ThemePicker = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 10 }}
             transition={{ duration: 0.2, bounce: 0.3 }}
-            className='absolute bottom-16 xl:bottom-28 right-0 bg-surface-container-high text-on-surface rounded-3xl p-4 shadow-elevation-2 hover:shadow-elevation-3 w-72 font-sans transition-all duration-200'
+            className='absolute bottom-16 xl:bottom-28 right-0 bg-surface-container-high text-on-surface rounded-3xl p-4 shadow-elevation-2 hover:shadow-elevation-3 w-72 font-sans transition-shadow duration-200'
           >
             <div className='relative'>
               <div className='flex rounded-full bg-surface-container-low mb-4 p-1'>
