@@ -168,8 +168,8 @@ importers:
         specifier: ^2.2.1
         version: 2.2.1
       arvo-xstate:
-        specifier: ^2.2.1
-        version: 2.2.1
+        specifier: ^2.2.4
+        version: 2.2.4
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
@@ -1882,8 +1882,8 @@ packages:
   arvo-event-handler@2.2.1:
     resolution: {integrity: sha512-TmJZnWWTd7NTmw/tnkyFV+LE8js2jSQwomOnllBYR2NMU6AGcr/Ar8yzr6tQaObLJS9hssQcL3CXunZ7pnux5g==}
 
-  arvo-xstate@2.2.1:
-    resolution: {integrity: sha512-gbZu0I8dHeSuN4PK1SIq0runb22iuIwTiouqPVw6RvPf25m7OAwqEqBfiwIexECtVP1jbid2gWSIKMOCVXHuyw==}
+  arvo-xstate@2.2.4:
+    resolution: {integrity: sha512-Dti0i2PxIEwAuAMmN/8reUee63tBjIkN95baBsVHq9zQyEdk3yeKK/c3OCztBHdvSNJk9rOlZm2Osuw2qkqnUg==}
 
   async@3.2.6:
     resolution: {integrity: sha512-htCUDlxyyCLMgaM3xXg0C0LW2xqfuQ6p05pCEIsXuyQ+a1koYKTuBMzRNwmybfLgvJDMd0r1LTn4+E0Ti6C2AA==}
@@ -5181,7 +5181,7 @@ snapshots:
       uuid: 10.0.0
       zod: 3.24.1
 
-  arvo-xstate@2.2.1:
+  arvo-xstate@2.2.4:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.30.0(@opentelemetry/api@1.9.0)

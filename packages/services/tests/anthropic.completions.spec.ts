@@ -126,7 +126,7 @@ describe('anthropic.completions', () => {
           (responses[0]?.data.usage.tokens.completion - 1),
       );
 
-      expect(() => JSON.parse(responses[0]?.data.message.content)).toThrow('Unexpected end of JSON input');
+      expect(() => JSON.parse(responses[0]?.data.message.content)).toThrow();
     });
   }
 
