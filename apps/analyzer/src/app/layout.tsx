@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${robotoFlex.variable} ${robotoSerif.variable} antialiased font-sans bg-surface text-on-surface`}
+        className={`${robotoFlex.variable} ${robotoSerif.variable} antialiased font-sans bg-surface-container-lowest text-on-surface-container`}
       >
         {children}
       </body>

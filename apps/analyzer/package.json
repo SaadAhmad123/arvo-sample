@@ -9,13 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
     "@material/material-color-utilities": "^0.3.0",
-    "@repo/utilities": "workspace:*",
-    "@repo/tsconfig": "workspace:*",
+    "@mui/icons-material": "^6.3.1",
     "@repo/material-ui": "workspace:*",
+    "@repo/tsconfig": "workspace:*",
+    "@repo/utilities": "workspace:*",
     "browserify-zlib": "^0.2.0",
-    "framer-motion": "^11.15.0",
-    "lucide-react": "^0.469.0",
     "next": "15.1.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

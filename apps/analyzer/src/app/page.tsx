@@ -1,19 +1,36 @@
+'use client';
+
 import { Logo } from '@/components/Logo';
-import { ThemePicker, Button } from '@repo/material-ui';
-import { AArrowUp } from 'lucide-react';
+import { ThemePicker, Button, NavButton, Navbar } from '@repo/material-ui';
+import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined';
 
 export default function Home() {
   return (
     <>
+      <Navbar
+        options={{
+          home: {
+            title: 'Home',
+            icon: <Logo size={20} />,
+            filter: true,
+          },
+          about: {
+            title: 'Home',
+            icon: <MenuOpenOutlinedIcon />,
+            filter: true,
+          },
+        }}
+        selectedOption='home'
+      />
       <pre className='font-sans bg-primary text-on-primary'>I am Saad</pre>
       <ThemePicker />
       <Logo size={36} />
-      <Button title='Hello World' icon={<AArrowUp />} />
+      <Button title='Hello World' icon={<MenuOpenOutlinedIcon />} />
       <br />
       <Button title='Hello World' />
       <br />
       <div className='w-[300px]'>
-        <Button title='Hello World My name is Saad Ahmad' icon={<AArrowUp />} cover='fill' />
+        <Button title='Hello World My name is Saad Ahmad' icon={<MenuOpenOutlinedIcon />} cover='fill' />
       </div>
       <br />
       <div className='p-4 bg-surface-container-lowest'>
@@ -21,16 +38,18 @@ export default function Home() {
       </div>
       <br />
       <div className='p-4 bg-surface-container-lowest'>
-        <Button title='Hello World' variant='elevated' icon={<AArrowUp />} />
+        <Button title='Hello World' variant='elevated' icon={<MenuOpenOutlinedIcon />} />
       </div>
       <br />
       <Button title='Hello World' variant='tonal' />
       <br />
-      <Button title='Hello World' variant='tonal' icon={<AArrowUp />} />
+      <Button title='Hello World' variant='tonal' icon={<MenuOpenOutlinedIcon />} />
       <br />
       <Button title='Hello World' variant='outlined' />
       <br />
-      <Button title='Hello World' variant='text' icon={<AArrowUp />} />
+      <Button title='Hello World' variant='text' icon={<MenuOpenOutlinedIcon />} />
+      <br />
+      <NavButton title='Hello' icon={<MenuOpenOutlinedIcon />} />
     </>
   );
 }

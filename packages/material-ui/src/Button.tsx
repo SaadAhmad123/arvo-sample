@@ -15,7 +15,7 @@ type ButtonParam = {
 };
 export const Button: React.FC<ButtonParam> = (param) => {
   const baseStyle =
-    'flex items-center px-6 py-2.5 gap-x-2 rounded-[6.25rem] font-medium tracking-[.00714em] text-sm transition-all duration-100 active:scale-95';
+    'flex items-center px-6 py-2.5 min-h-[48px] gap-x-2 rounded-full font-medium tracking-[.00714em] text-normal transition-all duration-100 ';
   const variantStyles: Record<ButtonVariant, string> = {
     filled:
       'bg-primary text-on-primary shadow-none hover:shadow-elevation-2 active:bg-secondary active:text-on-secondary active:shadow-none',

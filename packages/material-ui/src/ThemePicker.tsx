@@ -8,7 +8,7 @@ import { FAB } from './FAB';
 
 const STORAGE_KEY = 'theme-preferences';
 const DEFAULT_PREFERENCES = {
-  color: '#F1C40F',
+  color: '#bbb7be',
   mode: 'dark' as ThemeMode,
 };
 
