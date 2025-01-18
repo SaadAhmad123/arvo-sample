@@ -1,6 +1,6 @@
+import { createPromptFactory } from '@repo/utilities';
 import { cleanString } from 'arvo-core';
 import { z } from 'zod';
-import { createPromptFactory } from '../commons/PromptFactory/helpers.js';
 
 // biome-ignore lint/correctness/noEmptyPattern: I understand but this is in-evitable
 export const llmJsonIntent = createPromptFactory(z.object({}), ({}) =>

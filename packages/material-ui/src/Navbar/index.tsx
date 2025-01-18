@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { NavButton } from '../NavButton';
-import type { NavbarParam, NavButtonItem } from './types';
+import type { NavButtonItem, NavbarParam } from './types';
 
 export function Navbar<T extends Record<string, NavButtonItem>>({ logo, options, selectedOption }: NavbarParam<T>) {
   return (

@@ -1,8 +1,8 @@
 'use client';
 
 import { Logo } from '@/components/Logo';
-import { ThemePicker, Button, NavButton, Navbar } from '@repo/material-ui';
 import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined';
+import { Button, NavButton, Navbar, ThemePicker } from '@repo/material-ui';
 
 export default function Home() {
   return (

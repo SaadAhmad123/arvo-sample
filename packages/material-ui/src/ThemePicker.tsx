@@ -1,10 +1,10 @@
 'use client';
 
+import { AnimatePresence, motion } from 'framer-motion';
+import { Moon, Palette, RotateCcw, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Palette, Sun, Moon, RotateCcw } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { type ThemeMode, MaterialThemeBuilder } from './utils';
 import { FAB } from './FAB';
+import { MaterialThemeBuilder, type ThemeMode } from './utils';
 
 const STORAGE_KEY = 'theme-preferences';
 const DEFAULT_PREFERENCES = {

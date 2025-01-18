@@ -1,14 +1,12 @@
 import { openaiCompletions as openaiCompletionsContract } from '@repo/contracts/services';
 import { llmCompletionStream } from '@repo/contracts/streams';
 import { parseJSON } from '@repo/utilities';
-import { llmJsonIntent } from '@repo/utilities/prompts';
 import { type VersionedArvoContract, createArvoEventFactory, exceptionToSpan, logToSpan } from 'arvo-core';
 import { type EventHandlerFactory, createArvoEventHandler } from 'arvo-event-handler';
 import OpenAI from 'openai';
 import type { ChatCompletionMessageParam } from 'openai/resources/index.mjs';
-import { openaiRates } from './ratecards/openai.js';
-import { serviceRate } from './ratecards/service.js';
-import type { EventHandlerFactoryParams } from './types.js';
+import type { EventHandlerFactoryParams } from './commons/index.js';
+import { prompts, ratecards } from './commons/index.js';
 
 export const openaiCompletions: EventHandlerFactory<
   EventHandlerFactoryParams<
@@ -18,7 +16,7 @@ export const openaiCompletions: EventHandlerFactory<
 > = (param) =>
   createArvoEventHandler({
     contract: openaiCompletionsContract,
-    executionunits: serviceRate(),
+    executionunits: ratecards.serviceRate(),
     handler: {
       '1.0.0': async ({ event }) => {
         // Initialize the OpenAI client with provided parameters
@@ -28,7 +26,7 @@ export const openaiCompletions: EventHandlerFactory<
           organization: settings.OPENAI_ORG_ID,
           project: settings.OPENAI_PROJECT_ID,
         });
-        const jsonUsageIntent = event.data.json_response ? llmJsonIntent.build({}) : '';
+        const jsonUsageIntent = event.data.json_response ? prompts.llmJsonIntent.build({}) : '';
 
         // Create a stream for chat completions
         const stream = await openai.chat.completions.create({
@@ -111,11 +109,11 @@ export const openaiCompletions: EventHandlerFactory<
 
         const totalTime = performance.now() - startTime;
         const averageTokenTime = (totalTime - timeToFirstToken) / (outputTokens - 1);
-        const totalLlmCost = openaiRates[event.data.model]?.(inputTokens, outputTokens) ?? 0;
+        const totalLlmCost = ratecards.openaiRates[event.data.model]?.(inputTokens, outputTokens) ?? 0;
 
         return {
           type: 'evt.openai.completions.success' as const,
-          executionunits: serviceRate() + totalLlmCost,
+          executionunits: ratecards.serviceRate() + totalLlmCost,
           data: {
             json_valid: event.data.json_response ? Boolean(parseJSON(response)) : null,
             message: {

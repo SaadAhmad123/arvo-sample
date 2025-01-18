@@ -1,8 +1,8 @@
 import { llmOrchestrator as llmOrchestratorContract } from '@repo/contracts/orchestrators';
-import { createArvoEventFactory, createArvoOrchestratorEventFactory } from 'arvo-core';
-import { llmOrchestrator } from '../src/index.js';
-import { SimpleMachineMemory } from 'arvo-xstate';
 import * as serviceContracts from '@repo/contracts/services';
+import { createArvoEventFactory, createArvoOrchestratorEventFactory } from 'arvo-core';
+import { SimpleMachineMemory } from 'arvo-xstate';
+import { llmOrchestrator } from '../src/index.js';
 import { expectOrchestratedEvent, mockArvoEventHandler } from './utils/index.js';
 import { telemetrySdkStart, telemetrySdkStop } from './utils/otel.js';
 

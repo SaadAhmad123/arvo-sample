@@ -1,5 +1,5 @@
-import type { Config } from 'tailwindcss';
 import { Utils } from '@repo/material-ui';
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [

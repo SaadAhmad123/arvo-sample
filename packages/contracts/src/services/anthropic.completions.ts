@@ -10,7 +10,7 @@ export const anthropicCompletions = createSimpleArvoContract({
     '1.0.0': {
       accepts: BaseGenAISchema.accept.merge(
         z.object({
-          model: anthropic.optional().default('claude-3-haiku-20240307'),
+          model: anthropic.default('claude-3-haiku-20240307'),
         }),
       ),
       emits: BaseGenAISchema.emit,

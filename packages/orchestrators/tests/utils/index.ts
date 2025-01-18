@@ -1,13 +1,13 @@
+import { generateMock } from '@anatine/zod-mock';
 import {
-  type ArvoSemanticVersion,
-  EventDataschemaUtil,
-  type ArvoOrchestratorContract,
   type ArvoContract,
   type ArvoEvent,
+  type ArvoOrchestratorContract,
+  type ArvoSemanticVersion,
+  EventDataschemaUtil,
   type VersionedArvoContract,
 } from 'arvo-core';
 import { createArvoEventHandler } from 'arvo-event-handler';
-import { generateMock } from '@anatine/zod-mock';
 import type { z } from 'zod';
 
 export const expectOrchestratedEvent = <

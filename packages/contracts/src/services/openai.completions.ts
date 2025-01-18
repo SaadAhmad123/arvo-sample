@@ -10,7 +10,7 @@ export const openaiCompletions = createSimpleArvoContract({
     '1.0.0': {
       accepts: BaseGenAISchema.accept.merge(
         z.object({
-          model: openai.optional().default('gpt-4o-mini'),
+          model: openai.default('gpt-4o-mini'),
         }),
       ),
       emits: BaseGenAISchema.emit,

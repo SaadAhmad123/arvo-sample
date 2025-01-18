@@ -1,4 +1,4 @@
-import { createArvoOrchestratorContract } from 'arvo-core';
+import { createArvoOrchestratorContract, createArvoOrchestratorEventFactory } from 'arvo-core';
 import { z } from 'zod';
 import * as LLMs from '../commons/genai.llms.js';
 import * as BaseGenAISchema from '../commons/schema.base.genai.js';
@@ -34,4 +34,12 @@ export const llmOrchestrator = createArvoOrchestratorContract({
       ),
     },
   },
+});
+
+const factory = createArvoOrchestratorEventFactory(llmOrchestrator.version('1.0.0'));
+
+const event = factory.systemError({
+  source: 'com.test.test',
+  subject: 'test-subject',
+  error: new Error('Some error'),
 });

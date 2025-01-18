@@ -1,8 +1,8 @@
+import type { LLMModels } from '@repo/contracts/genaiModels';
 import { llmOrchestrator } from '@repo/contracts/orchestrators';
 import { anthropicCompletions, openaiCompletions } from '@repo/contracts/services';
 import type { ArvoErrorType, InferVersionedArvoContract, VersionedArvoContract } from 'arvo-core';
 import { setupArvoMachine, xstate } from 'arvo-xstate';
-import type { LLMModels } from '@repo/contracts/genaiModels';
 
 type LLMMachineV100Context = {
   data: InferVersionedArvoContract<VersionedArvoContract<typeof llmOrchestrator, '1.0.0'>>['accepts']['data'];

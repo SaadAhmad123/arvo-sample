@@ -2,26 +2,24 @@ import Anthropic from '@anthropic-ai/sdk';
 import { anthropicCompletions as anthropicCompletionsContract } from '@repo/contracts/services';
 import { llmCompletionStream } from '@repo/contracts/streams';
 import { parseJSON } from '@repo/utilities';
-import { llmJsonIntent } from '@repo/utilities/prompts';
 import { type VersionedArvoContract, createArvoEventFactory, exceptionToSpan } from 'arvo-core';
 import { type EventHandlerFactory, createArvoEventHandler } from 'arvo-event-handler';
-import { anthropicRates } from './ratecards/anthropic.js';
-import { serviceRate } from './ratecards/service.js';
-import type { EventHandlerFactoryParams } from './types.js';
+import type { EventHandlerFactoryParams } from './commons/index.js';
+import { prompts, ratecards } from './commons/index.js';
 
 export const anthropicCompletions: EventHandlerFactory<
   EventHandlerFactoryParams<'ANTHROPIC_API_KEY', VersionedArvoContract<typeof llmCompletionStream, '1.0.0'>>
 > = (param) =>
   createArvoEventHandler({
     contract: anthropicCompletionsContract,
-    executionunits: serviceRate(),
+    executionunits: ratecards.serviceRate(),
     handler: {
       '1.0.0': async ({ event }) => {
         const settings = await param.settings();
         const anthropic = new Anthropic({
           apiKey: settings.ANTHROPIC_API_KEY,
         });
-        const jsonUsageIntent = event.data.json_response ? llmJsonIntent.build({}) : '';
+        const jsonUsageIntent = event.data.json_response ? prompts.llmJsonIntent.build({}) : '';
 
         // Create a stream for chat completions
         const stream = await anthropic.messages.create({
@@ -90,11 +88,11 @@ export const anthropicCompletions: EventHandlerFactory<
         }
         const totalTime = performance.now() - startTime;
         const averageTokenTime = (totalTime - timeToFirstToken) / (outputTokens - 1);
-        const totalLlmCost = anthropicRates[event.data.model]?.(inputTokens, outputTokens) ?? 0;
+        const totalLlmCost = ratecards.anthropicRates[event.data.model]?.(inputTokens, outputTokens) ?? 0;
 
         return {
           type: 'evt.anthropic.completions.success',
-          executionunits: serviceRate() + totalLlmCost,
+          executionunits: ratecards.serviceRate() + totalLlmCost,
           data: {
             json_valid: event.data.json_response ? Boolean(parseJSON(response)) : null,
             message: {

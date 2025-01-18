@@ -13,13 +13,11 @@ export const accept = z.object({
     .number()
     .min(10, 'The minimum number of completion tokens must be 10')
     .max(4096, 'The maximum number of completion tokens must be 4096')
-    .optional()
     .describe('The maximum output tokens.')
     .default(4096),
 
   system_command: z
     .string()
-    .optional()
     .describe('The persona the large language model should assume for the request.')
     .default('You are a helpful assistant'),
 
@@ -27,13 +25,11 @@ export const accept = z.object({
     .number()
     .min(0)
     .max(1)
-    .optional()
     .describe('The extent of randomness assumed by the model to generate the output')
     .default(0.5),
 
   json_response: z
     .boolean()
-    .optional()
     .describe('If set to `true`, the response will be in JSON format, if possible.')
     .default(false),
 

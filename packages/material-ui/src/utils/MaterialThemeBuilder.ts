@@ -1,4 +1,4 @@
-import { themeFromSourceColor, argbFromHex, hexFromArgb, type Theme } from '@material/material-color-utilities';
+import { type Theme, argbFromHex, hexFromArgb, themeFromSourceColor } from '@material/material-color-utilities';
 
 /** Represents the theme mode - either 'light' or 'dark' */
 export type ThemeMode = 'light' | 'dark';

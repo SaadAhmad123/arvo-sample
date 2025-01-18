@@ -9,14 +9,6 @@
       "require": "./dist/index.js",
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
-    },
-    "./commons": {
-      "import": "./dist/commons/index.js",
-      "types": "./dist/commons/index.d.ts"
-    },
-    "./prompts": {
-      "import": "./dist/prompts/index.js",
-      "types": "./dist/prompts/index.d.ts"
     }
   },
   "scripts": {
@@ -31,7 +23,9 @@
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.3.0",
-    "arvo-core": "^2.2.2",
+    "arvo-core": "^2.2.5",
+    "arvo-event-handler": "^2.2.5",
+    "arvo-xstate": "^2.2.4",
     "zod": "^3.24.1"
   }
 }
