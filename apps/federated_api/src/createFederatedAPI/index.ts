@@ -1,33 +1,21 @@
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { EventDataschemaUtil, type ArvoEvent, type VersionedArvoContract } from 'arvo-core';
-import { createSimpleEventBroker, SimpleMachineMemory } from 'arvo-xstate';
+import { SimpleMachineMemory } from 'arvo-xstate';
 import { createRouteSpec } from './createRouteSpec.js';
-import * as Services from '@repo/services';
-import * as Orchestrators from '@repo/orchestrators';
-import { settings, createEventFromHono } from '../commons/index.js';
-import { resolveSimpleEventBroker } from '@repo/utilities';
+import { createEventFromHono } from '../commons/index.js';
+import { streamSSE } from 'hono/streaming';
+import { resolveEvent } from './resolveEvent.js';
+import { clearMemory, transformArvoEvent } from './utils.js';
 
 // biome-ignore lint/suspicious/noExplicitAny: Need to be general
 export const createFederatedAPI = (contracts: VersionedArvoContract<any, any>[]) => {
-  const routeSpec = createRouteSpec(contracts);
   const dataschemaToContractMap = Object.fromEntries(contracts.map((item) => [EventDataschemaUtil.create(item), item]));
   const api = new OpenAPIHono();
+  const memory = new SimpleMachineMemory();
 
-  api.openapi(routeSpec, async (c) => {
+  api.openapi(createRouteSpec(contracts), async (c) => {
+    let eventSubject: string | null = null;
     try {
-      const memory = new SimpleMachineMemory();
-      const streamer = async (data: ArvoEvent) => console.log({ data });
-      let error: Error | null = null;
-      const broker = createSimpleEventBroker(
-        [
-          ...Object.values(Services).map((item) => item({ settings, streamer })),
-          ...Object.values(Orchestrators).map((item) => item(memory)),
-        ],
-        (e: Error) => {
-          error = e;
-        },
-      );
-
       // biome-ignore lint/suspicious/noExplicitAny: A hono limitation
       const data: any = c.req.valid('json');
       const contract = dataschemaToContractMap[data.dataschema];
@@ -36,21 +24,13 @@ export const createFederatedAPI = (contracts: VersionedArvoContract<any, any>[])
       }
 
       const event = createEventFromHono(data.data, contract);
-      const result = await resolveSimpleEventBroker(broker, event);
-      if (error) throw error;
+      eventSubject = event.subject;
+      const result = await resolveEvent(memory, event);
 
       return c.json(
         {
-          event: {
-            type: result.event.type,
-            dataschema: result.event.dataschema,
-            data: result.event.data,
-          },
-          history: result.history.map((item) => ({
-            type: item.type,
-            dataschmea: item.dataschema,
-            data: item.data,
-          })),
+          event: transformArvoEvent(result.event),
+          history: result.history.map(transformArvoEvent),
         },
         200,
       );
@@ -63,7 +43,53 @@ export const createFederatedAPI = (contracts: VersionedArvoContract<any, any>[])
         },
         500,
       );
+    } finally {
+      clearMemory(memory, eventSubject);
     }
+  });
+
+  api.openapi(createRouteSpec(contracts, '/sse', false), async (c) => {
+    return streamSSE(c, async (stream) => {
+      let eventSubject: string | null = null;
+      try {
+        // biome-ignore lint/suspicious/noExplicitAny: A hono limitation
+        const data: any = c.req.valid('json');
+        const contract = dataschemaToContractMap[data.dataschema];
+        if (!contract) {
+          throw new Error('The provided dataschema is not registered to be serviced');
+        }
+
+        const streamer = async (event: ArvoEvent) => {
+          await stream.writeSSE({
+            event: 'stream',
+            data: JSON.stringify(event.toJSON()),
+            id: event.id,
+          });
+        };
+
+        const event = createEventFromHono(data.data, contract);
+        eventSubject = event.subject;
+        const result = await resolveEvent(memory, event, streamer);
+
+        await stream.writeSSE({
+          event: 'success',
+          data: JSON.stringify(result.event.toJSON()),
+          id: result.event.id,
+        });
+      } catch (e) {
+        await stream.writeSSE({
+          event: 'error',
+          data: JSON.stringify({
+            cause: (e as Error)?.cause,
+            name: (e as Error)?.name ?? 'Error',
+            message: (e as Error)?.message ?? 'Internal server process',
+          }),
+        });
+      } finally {
+        clearMemory(memory, eventSubject);
+      }
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    }) as any;
   });
 
   return api;

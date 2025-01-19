@@ -9,7 +9,7 @@ import z from 'zod';
  * @returns OpenAPI route spec with request/response validation schemas
  */
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-export const createRouteSpec = (contracts: VersionedArvoContract<any, any>[]) => {
+export const createRouteSpec = (contracts: VersionedArvoContract<any, any>[], path = '/', isSSE = false) => {
   // collect the input schema
   const routeInputSchema: unknown[] = contracts.map((item) =>
     z.object({
@@ -47,7 +47,7 @@ export const createRouteSpec = (contracts: VersionedArvoContract<any, any>[]) =>
   return createRoute({
     method: 'post',
     tags: ['Federated API'],
-    path: '/',
+    path: path,
     request: {
       body: {
         content: {
@@ -63,12 +63,14 @@ export const createRouteSpec = (contracts: VersionedArvoContract<any, any>[]) =>
         description: 'Success',
         content: {
           'application/json': {
-            schema: z.object({
-              // biome-ignore lint/suspicious/noExplicitAny: Zod limitation
-              event: z.union(routeOutputSchema as any),
-              // biome-ignore lint/suspicious/noExplicitAny: Zod limitation
-              history: z.union(routeOutputSchema as any).array(),
-            }),
+            schema: isSSE
+              ? z.any()
+              : z.object({
+                  // biome-ignore lint/suspicious/noExplicitAny: Zod limitation
+                  event: z.union(routeOutputSchema as any),
+                  // biome-ignore lint/suspicious/noExplicitAny: Zod limitation
+                  history: z.union(routeOutputSchema as any).array(),
+                }),
           },
         },
       },
@@ -76,11 +78,13 @@ export const createRouteSpec = (contracts: VersionedArvoContract<any, any>[]) =>
         description: 'Success',
         content: {
           'application/json': {
-            schema: z.object({
-              cause: z.string().optional(),
-              name: z.string(),
-              message: z.string(),
-            }),
+            schema: isSSE
+              ? z.any()
+              : z.object({
+                  cause: z.string().optional(),
+                  name: z.string(),
+                  message: z.string(),
+                }),
           },
         },
       },

@@ -2,7 +2,7 @@ import { createArvoContract } from 'arvo-core';
 import { z } from 'zod';
 
 export const llmCompletionStream = createArvoContract({
-  uri: '#/steams/llm/completions',
+  uri: '#/streams/llm/completions',
   type: 'stream.llm.completions',
   versions: {
     '1.0.0': {
