@@ -1,5 +1,5 @@
-import { llmOrchestrator } from '@repo/contracts/orchestrators';
 import { cleanString } from 'arvo-core';
+import { llmOrchestrator } from '@repo/contracts/orchestrators';
 import type { ReflectorAgentContext } from '../types.js';
 
 export const createGeneratorEvent = (context: ReflectorAgentContext) => {
@@ -26,7 +26,9 @@ export const createGeneratorEvent = (context: ReflectorAgentContext) => {
       <instructions>
       ${context.configuration.instructions}
       </instructions>
-      
+      <criteria>
+      ${context.configuration.criteria.map((item, index) => `<item id="${index}">${item}</item>`).join('\n')}
+      </criteria>
       Generate the response as per the ${generationContext ? 'context and' : ''} instructions, then validate them against the criteria.
       ${
         context.configuration.json_response
@@ -34,12 +36,6 @@ export const createGeneratorEvent = (context: ReflectorAgentContext) => {
           : 'Respond with the output format in the instructions'
       } 
   `);
-
-  /**
-   * <criteria>
-      ${context.configuration.criteria.map((item, index) => `<item id="${index}">${item}</item>`).join('\n')}
-      </criteria>
-   */
 
   if (context.critiques.length) {
     systemCommand = cleanString(`

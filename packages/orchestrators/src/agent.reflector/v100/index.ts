@@ -1,11 +1,11 @@
-import { llmOrchestrator, reflectorAgentOrchestrator } from '@repo/contracts/orchestrators';
-import type { ArvoErrorType } from 'arvo-core';
 import { setupArvoMachine } from 'arvo-xstate';
-import { assign, emit } from 'xstate';
-import type z from 'zod';
+import { reflectorAgentOrchestrator, llmOrchestrator } from '@repo/contracts/orchestrators';
 import type { ReflectorAgentContext } from './types.js';
-import { CriticResponseSchema, createCriticEvent } from './utils/createCriticEvent.js';
+import type z from 'zod';
+import { assign, emit } from 'xstate';
+import { createCriticEvent, CriticResponseSchema } from './utils/createCriticEvent.js';
 import { createGeneratorEvent } from './utils/createGeneratorEvent.js';
+import type { ArvoErrorType } from 'arvo-core';
 
 const machineId = 'reflectorAgentMachineV100';
 export const reflectorAgentMachineV100 = setupArvoMachine({
@@ -29,6 +29,14 @@ export const reflectorAgentMachineV100 = setupArvoMachine({
         return param ? param.safeParse(JSON.parse(event.data.result.message.content)).success : true;
       }
       return false;
+    },
+    isCriteriaAchieved: ({ context }) => {
+      if (!context.configuration.criteria.length) return true;
+      const latestCritiques = context.critiques[context.critiques.length - 1];
+      if (!latestCritiques) return false;
+      const satisfiedCritiques = latestCritiques.filter((item) => item.satisfied);
+      const currentSatisfactionPercentage = satisfiedCritiques.length / latestCritiques.length;
+      return currentSatisfactionPercentage >= context.configuration.criteria_satisfaction_threshold;
     },
   },
   actions: {
@@ -127,7 +135,7 @@ export const reflectorAgentMachineV100 = setupArvoMachine({
     }),
   },
 }).createMachine({
-  /** @xstate-layout N4IgpgJg5mDOIC5QFsCGBjAFgSwHZgDoZ8AnVAFwHsSBiVEgN0oOvQIBt3kCJL8BtAAwBdRKAAOlWNnLY+YkAA9EAJgAcAFgIA2AIyDBugJxHBGgMwaVGjQBoQAT0SWVBNWe0BWXWqMrPAOwangC+IfZoWHiExGBkVLT0TCwkbJzcvAK6okggktKy8rnKCOae5gQGurrm+poqKuZGAfZOCJoEGkZq3hq+nmp6AaHhIJE4+ERgpBTUNLAOsARJzKwcXARxJNRCORJSMnK4CiW6AdoERtpXGvplGtpBaq2IxhfBgWfVgurmgiMRDATQjoEiHdB0RirVLrDJ8MC7BT5Q5FUAlXxqAjVLplR79QwvBDacwBSraQy+IyWczqNRhQFRSag8GQ5JrdI8eH8bJIg6FY7FV4qAJGNwBNRlbxqRraR6EsqYjQBcWeRoigLmNTDeljIHRAjM2QQhZLFYpNIbLY7ES8gpHE6vQTEggqIyeK64gJnTyeQnqQQu-x+L3Kp1egG6xmEbYAV3IYBoiNyyP5DoQuj6nixg3Meg9jxqhNlrkEuY1ZiMfUMOvG+tj8cTPOTfPtgvTglMbl8Xv05WVRkJ0oDxJJVO6ul+dJ1uEoEDgClr+FtKIFaMQAFofFo-N0vIIRV0BnZHBv3S6TIYak9PKWVDW9ZNYvFqMvU23N7nLq7BjeD27NISPiuNo0rWA0dTWMS95RgaYJGq+rZrkSyqVJ4Xg+AMjSagOJ6lJ+fyuj6TQTtUU4MsCBD1mACGokoryWLoLqqo0N4diYLS4V4orio8lY3jYXp3qMi6EJk1HNnatGnEEFQ3m65wGEYuhoUWZSVGWPTdI0BhCeR+pWiQNGrnR6a5loTSVnoPQqN6zy4eoLqGDp7gan4YRhEAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QCcwDMA2YDGAXA9sgIIwB2uAsgIbYAWAlqWAGoCMADOwHRljJUFkAYirIAbvi6FsXDBgC2XCPiYBtdgF1EoAA75Y9XPRXaQAD0QBmVgDYuAdlYAOezctPWAVgAs3y94AaEABPK28AJi5Ldm8bGwBOdnjrTxt7AF90oNRMHEESMHJqOkYWDm5efkERcUlpWQUlFTBVVi0kED0DIxMOiwRrO0cXNw8fP0CQxA8ub3j5p094+3ZWa29M7PQsPEICopoGJjZOHkK+AUIhWGDYLlEJKWQZOUU+ZEJ1dt19Q2NSUz9QYOZyudxeXz+IKhBCsez2WaeayscL2cLsGzhJYZLIgHI7fJkSiHUonbjYZB-bA1R71V5NNSaUxdP69UD9RbcVLhObOeJLOL2aGITworhOSxLcL8+I2JyYyybPHbPJ7InFI5lU4Uqk0urPBqKZRqNrM349AF9aaeLmY3lOGWC4UIby2cVOcJOdie2KWNJOJX41XEdUk47lLg6ozUm53B76l6Nd6fJkdFkWwHW208+J8gVpZ2WdFceLStI2JKeFxFwMq3YhwrEkrh04fACuuDAQi+Zu6-0zsMl8S43s8qXYrnskvYnkL3k8JYxPJsovs88sitxQfr+ybmrJXHbne7prT5v7VsHY5H3rhruWrvCzu8DtmrHinPnNvYRZstdyO6hs2WrcEeXaqOE3ydOebLmIgaweuK86lu+SRuL4zoJE44p8ii8LhCung4ripD4BAcCmNuhKNhqpLlL2rKWuyiAALQ2M6bE3pwqLhKwcKeLxY7-gSao0WGIFnEwVSEAxGaXhEzocJE5ZjnM7BOF+0rCcGu60S25KUtGskXsxCCYtwvEuC+nDqTEQpTAMEQjtYy7eFOEqONpgFicBB5gcZsH9CiSJRBu0RekkM4xM6PisFwNjzh6rB+GFcpedRBy+RGxpgAFTFwbCSwLj4coJTaGk+jFboOlW1jzOEli5puWwARle50acybIHlA4ojyI7JGiG4fmkpaKYsXDhGW9jyrKVbxPOmSZEAA */
   id: machineId,
   context: ({ input }) => ({
     initSubject$$: input.subject,
@@ -203,6 +211,10 @@ export const reflectorAgentMachineV100 = setupArvoMachine({
     },
     route: {
       always: [
+        {
+          target: 'done',
+          guard: { type: 'isCriteriaAchieved' },
+        },
         {
           target: 'done',
           guard: { type: 'isMaxIteration' },

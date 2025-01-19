@@ -37,6 +37,14 @@ export const reflectorAgentOrchestrator = createArvoOrchestratorContract({
           .string()
           .array()
           .describe('A list of criteria (e.g. yes/no question) which the genration must satisfy'),
+        criteria_satisfaction_threshold: z
+          .number()
+          .min(0)
+          .max(1)
+          .default(0.9)
+          .describe(
+            'The minimum percentage of all the criteria to be met before consider a generation to be satisfactory.',
+          ),
         max_iterations: z
           .number()
           .default(1)
