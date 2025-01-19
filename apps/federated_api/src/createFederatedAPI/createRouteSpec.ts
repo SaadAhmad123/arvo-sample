@@ -46,6 +46,7 @@ export const createRouteSpec = (contracts: VersionedArvoContract<any, any>[]) =>
   // create the route schema
   return createRoute({
     method: 'post',
+    tags: ['Federated API'],
     path: '/',
     request: {
       body: {

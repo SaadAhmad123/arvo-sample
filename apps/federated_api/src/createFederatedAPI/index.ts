@@ -1,15 +1,14 @@
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { EventDataschemaUtil, type ArvoEvent, type VersionedArvoContract } from 'arvo-core';
 import { createSimpleEventBroker, SimpleMachineMemory } from 'arvo-xstate';
-import { createRouteSpec } from 'src/createExecuteAPI/createRouteSpec.js';
+import { createRouteSpec } from './createRouteSpec.js';
 import * as Services from '@repo/services';
 import * as Orchestrators from '@repo/orchestrators';
-import { settings } from '../commons/index.js';
-import { createEventFromHonoContext } from './createEventFromHonoContext.js';
+import { settings, createEventFromHono } from '../commons/index.js';
 import { resolveSimpleEventBroker } from '@repo/utilities';
 
 // biome-ignore lint/suspicious/noExplicitAny: Need to be general
-export const createExecuteAPI = (contracts: VersionedArvoContract<any, any>[]) => {
+export const createFederatedAPI = (contracts: VersionedArvoContract<any, any>[]) => {
   const routeSpec = createRouteSpec(contracts);
   const dataschemaToContractMap = Object.fromEntries(contracts.map((item) => [EventDataschemaUtil.create(item), item]));
   const api = new OpenAPIHono();
@@ -29,7 +28,14 @@ export const createExecuteAPI = (contracts: VersionedArvoContract<any, any>[]) =
         },
       );
 
-      const event = createEventFromHonoContext(c, dataschemaToContractMap);
+      // biome-ignore lint/suspicious/noExplicitAny: A hono limitation
+      const data: any = c.req.valid('json');
+      const contract = dataschemaToContractMap[data.dataschema];
+      if (!contract) {
+        throw new Error('The provided dataschema is not registered to be serviced');
+      }
+
+      const event = createEventFromHono(data.data, contract);
       const result = await resolveSimpleEventBroker(broker, event);
       if (error) throw error;
 

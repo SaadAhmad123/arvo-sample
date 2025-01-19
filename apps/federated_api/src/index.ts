@@ -5,7 +5,8 @@ import {} from 'arvo-xstate';
 import { serve } from '@hono/node-server';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { swaggerUI } from '@hono/swagger-ui';
-import { createExecuteAPI } from 'src/createExecuteAPI/index.js';
+import { createFederatedAPI } from './createFederatedAPI/index.js';
+import { createExecuteRouter } from './createExecuteRouter/index.js';
 
 // biome-ignore lint/suspicious/noExplicitAny: Needs to be general
 const enabledContracts: VersionedArvoContract<any, any>[] = [
@@ -15,7 +16,8 @@ const enabledContracts: VersionedArvoContract<any, any>[] = [
 ];
 
 const app = new OpenAPIHono();
-app.route('/execute', createExecuteAPI(enabledContracts));
+app.route('/federated', createFederatedAPI(enabledContracts));
+app.route('/execute', createExecuteRouter(enabledContracts));
 app.doc('/openapi', {
   openapi: '3.0.0',
   info: {
