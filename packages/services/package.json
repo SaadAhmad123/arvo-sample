@@ -47,7 +47,7 @@
     "@repo/utilities": "workspace:*",
     "arvo-core": "^2.2.5",
     "arvo-event-handler": "^2.2.5",
-    "arvo-xstate": "^2.2.4",
+    "arvo-xstate": "^2.2.5",
     "dotenv": "^16.4.7",
     "openai": "^4.77.0",
     "zod": "^3.24.1"

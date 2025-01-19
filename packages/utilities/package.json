@@ -25,7 +25,7 @@
     "@material/material-color-utilities": "^0.3.0",
     "arvo-core": "^2.2.5",
     "arvo-event-handler": "^2.2.5",
-    "arvo-xstate": "^2.2.4",
+    "arvo-xstate": "^2.2.5",
     "zod": "^3.24.1"
   }
 }

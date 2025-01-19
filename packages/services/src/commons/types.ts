@@ -1,10 +1,5 @@
-import type {
-  ArvoContract,
-  ArvoEvent,
-  ArvoSemanticVersion,
-  InferVersionedArvoContract,
-  VersionedArvoContract,
-} from 'arvo-core';
+import type { ArvoContract, ArvoEvent, ArvoSemanticVersion, VersionedArvoContract } from 'arvo-core';
+import type { z } from 'zod';
 
 export type ServiceSettings = {
   OPENAI_API_KEY: string;
@@ -20,5 +15,12 @@ export type EventHandlerFactoryParams<
   TStreamContract extends VersionedArvoContract<any, any> = VersionedArvoContract<ArvoContract, ArvoSemanticVersion>,
 > = {
   settings: () => Promise<Pick<ServiceSettings, TSettingKeys>>;
-  streamer?: (data: InferVersionedArvoContract<TStreamContract>['accepts'], event: ArvoEvent) => Promise<void>;
+  streamer?: (
+    event: ArvoEvent<
+      z.infer<TStreamContract['accepts']['schema']>,
+      Record<string, string>,
+      TStreamContract['accepts']['type']
+    >,
+    sourceEvent: ArvoEvent,
+  ) => Promise<void>;
 };

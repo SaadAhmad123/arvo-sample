@@ -9,6 +9,6 @@
   "dependencies": {
     "arvo-core": "^2.2.5",
     "arvo-event-handler": "^2.2.5",
-    "arvo-xstate": "^2.2.4"
+    "arvo-xstate": "^2.2.5"
   }
 }

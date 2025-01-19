@@ -1,8 +1,8 @@
 import * as ServiceContracts from '@repo/contracts/services';
 import { type InferVersionedArvoContract, type VersionedArvoContract, createArvoEventFactory } from 'arvo-core';
-import * as ServiceFactories from '../src/index.js';
 import { openaiRates } from '../src/commons/ratecards/openai.js';
 import { serviceRate } from '../src/commons/ratecards/service.js';
+import * as ServiceFactories from '../src/index.js';
 import { getMockSettingsFactory } from './utils/mock.settings.js';
 import { telemetrySdkStart, telemetrySdkStop } from './utils/otel.js';
 
