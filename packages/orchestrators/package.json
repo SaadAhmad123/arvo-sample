@@ -42,9 +42,9 @@
   "dependencies": {
     "@repo/contracts": "workspace:*",
     "@repo/utilities": "workspace:*",
-    "arvo-core": "^2.2.5",
-    "arvo-event-handler": "^2.2.5",
-    "arvo-xstate": "^2.2.5",
+    "arvo-core": "^2.2.6",
+    "arvo-event-handler": "^2.2.6",
+    "arvo-xstate": "^2.2.6",
     "dotenv": "^16.4.7",
     "xstate": "^5.19.1",
     "zod": "^3.24.1"

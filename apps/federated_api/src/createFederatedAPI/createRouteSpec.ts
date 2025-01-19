@@ -1,5 +1,5 @@
 import { createRoute } from '@hono/zod-openapi';
-import { EventDataschemaUtil, type VersionedArvoContract } from 'arvo-core';
+import type { VersionedArvoContract } from 'arvo-core';
 import z from 'zod';
 
 /**
@@ -13,7 +13,7 @@ export const createRouteSpec = (contracts: VersionedArvoContract<any, any>[]) =>
   // collect the input schema
   const routeInputSchema: unknown[] = contracts.map((item) =>
     z.object({
-      dataschema: z.literal(EventDataschemaUtil.create(item)),
+      dataschema: z.literal(item.dataschema),
       data: item.accepts.schema,
     }),
   );
@@ -26,7 +26,7 @@ export const createRouteSpec = (contracts: VersionedArvoContract<any, any>[]) =>
       routeOutputSchema.push(
         z.object({
           type: z.literal(type),
-          dataschema: z.literal(EventDataschemaUtil.create(contract)),
+          dataschema: z.literal(contract.dataschema),
           data: schema as z.AnyZodObject,
         }),
       );
@@ -35,7 +35,7 @@ export const createRouteSpec = (contracts: VersionedArvoContract<any, any>[]) =>
       routeOutputSchema.push(
         z.object({
           type: z.literal(contract.systemError.type),
-          dataschema: z.literal(EventDataschemaUtil.createWithWildCardVersion(contract)),
+          dataschema: z.literal(contract.systemError.dataschema),
           data: contract.systemError.schema,
         }),
       );

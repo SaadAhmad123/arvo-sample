@@ -43,9 +43,9 @@
     "ts-jest": "^29.2.5"
   },
   "dependencies": {
-    "arvo-core": "^2.2.5",
-    "arvo-event-handler": "^2.2.5",
-    "arvo-xstate": "^2.2.5",
+    "arvo-core": "^2.2.6",
+    "arvo-event-handler": "^2.2.6",
+    "arvo-xstate": "^2.2.6",
     "zod": "^3.24.1"
   }
 }

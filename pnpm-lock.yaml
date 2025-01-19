@@ -48,14 +48,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/utilities
       arvo-core:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-event-handler:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-xstate:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       browserify-zlib:
         specifier: ^0.2.0
         version: 0.2.0
@@ -100,14 +100,14 @@ importers:
         specifier: ^0.18.3
         version: 0.18.3(hono@4.6.16)(zod@3.24.1)
       arvo-core:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-event-handler:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-xstate:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
@@ -155,14 +155,14 @@ importers:
   packages/contracts:
     dependencies:
       arvo-core:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-event-handler:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-xstate:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       zod:
         specifier: ^3.24.1
         version: 3.24.1
@@ -195,14 +195,14 @@ importers:
         specifier: workspace:*
         version: link:../utilities
       arvo-core:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-event-handler:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-xstate:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       browserify-zlib:
         specifier: ^0.2.0
         version: 0.2.0
@@ -253,14 +253,14 @@ importers:
         specifier: workspace:*
         version: link:../utilities
       arvo-core:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-event-handler:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-xstate:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
@@ -338,14 +338,14 @@ importers:
         specifier: workspace:*
         version: link:../utilities
       arvo-core:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-event-handler:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-xstate:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
@@ -408,14 +408,14 @@ importers:
   packages/tsconfig:
     dependencies:
       arvo-core:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-event-handler:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-xstate:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
 
   packages/utilities:
     dependencies:
@@ -423,14 +423,14 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       arvo-core:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-event-handler:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       arvo-xstate:
-        specifier: ^2.2.5
-        version: 2.2.5
+        specifier: ^2.2.6
+        version: 2.2.6
       zod:
         specifier: ^3.24.1
         version: 3.24.1
@@ -2328,14 +2328,14 @@ packages:
   argparse@1.0.10:
     resolution: {integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==}
 
-  arvo-core@2.2.5:
-    resolution: {integrity: sha512-kk9S9V81jJPeIpCmI9ZA/KK+AksVs9hS38zcyZHRBbYI2HNft6AKFX9OOnUqyuQVa6nmFNRbZasMruJeG1Oq4Q==}
+  arvo-core@2.2.6:
+    resolution: {integrity: sha512-SfLjEE8by381kf2fL3kXh155M2Du6TJl/KgdjREyxtaMQg9liLiPblUNqGJ+JZMMB0bUJ/+P6YRG54WvqyJqUg==}
 
-  arvo-event-handler@2.2.5:
-    resolution: {integrity: sha512-Ddg5ygSIcE89PhJ4nsVdnSIitR2K9pqPsiCINznKnUx11ZsRsAagGbrtof1h2qWITOxTRcQ5KC9xRFpNTek2qg==}
+  arvo-event-handler@2.2.6:
+    resolution: {integrity: sha512-YSmW51KWXtdt5HUtagjEPbH3+qKEPXcWaSb6yq1FOiXQwc55dyLHyrYXPBfNTa17K6RltyALNC0vwHUq2dRN7w==}
 
-  arvo-xstate@2.2.5:
-    resolution: {integrity: sha512-s2sO0WU5JXQnhWozn71DGaDI/t0DZpV8GTu/iepnwchGjfZ9lEwIkYXZaA/V4EZXHHN+QpIJs9HUI/UJ/PS1MQ==}
+  arvo-xstate@2.2.6:
+    resolution: {integrity: sha512-L6vklS51UYp9yErAGCeiUSxPBzvhrQl0e67GGqMnqg/c3e/85KG8x2IVomOlgmhvdavvJJT0FVgAfUW3RbAaNw==}
 
   async@3.2.6:
     resolution: {integrity: sha512-htCUDlxyyCLMgaM3xXg0C0LW2xqfuQ6p05pCEIsXuyQ+a1koYKTuBMzRNwmybfLgvJDMd0r1LTn4+E0Ti6C2AA==}
@@ -6039,7 +6039,7 @@ snapshots:
     dependencies:
       sprintf-js: 1.0.3
 
-  arvo-core@2.2.5:
+  arvo-core@2.2.6:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.30.0(@opentelemetry/api@1.9.0)
@@ -6047,20 +6047,20 @@ snapshots:
       zod: 3.24.1
       zod-to-json-schema: 3.24.1(zod@3.24.1)
 
-  arvo-event-handler@2.2.5:
+  arvo-event-handler@2.2.6:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.30.0(@opentelemetry/api@1.9.0)
-      arvo-core: 2.2.5
+      arvo-core: 2.2.6
       uuid: 10.0.0
       zod: 3.24.1
 
-  arvo-xstate@2.2.5:
+  arvo-xstate@2.2.6:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.30.0(@opentelemetry/api@1.9.0)
-      arvo-core: 2.2.5
-      arvo-event-handler: 2.2.5
+      arvo-core: 2.2.6
+      arvo-event-handler: 2.2.6
       uuid: 10.0.0
       xstate: 5.19.1
       zod: 3.24.1
