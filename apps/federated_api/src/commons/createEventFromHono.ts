@@ -1,8 +1,8 @@
 import {
   ArvoOrchestrationSubject,
+  type VersionedArvoContract,
   createArvoEventFactory,
   currentOpenTelemetryHeaders,
-  type VersionedArvoContract,
 } from 'arvo-core';
 import { v4 as uuid4 } from 'uuid';
 

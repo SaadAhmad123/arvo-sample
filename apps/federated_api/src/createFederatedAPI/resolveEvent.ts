@@ -1,9 +1,9 @@
-import type { ArvoEvent } from 'arvo-core';
-import { createSimpleEventBroker, type IMachineMemory, type MachineMemoryRecord } from 'arvo-xstate';
-import * as Services from '@repo/services';
 import * as Orchestrators from '@repo/orchestrators';
-import { settings } from '../commons/index.js';
+import * as Services from '@repo/services';
 import { resolveSimpleEventBroker } from '@repo/utilities';
+import type { ArvoEvent } from 'arvo-core';
+import { type IMachineMemory, type MachineMemoryRecord, createSimpleEventBroker } from 'arvo-xstate';
+import { settings } from '../commons/index.js';
 
 export const resolveEvent = async (
   memory: IMachineMemory<MachineMemoryRecord>,

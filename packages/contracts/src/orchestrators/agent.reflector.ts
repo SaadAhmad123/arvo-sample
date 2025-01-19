@@ -1,7 +1,7 @@
 import { cleanString, createArvoOrchestratorContract } from 'arvo-core';
 import { z } from 'zod';
-import { llmModelSchema } from './commons/llmModelSchema.js';
 import { createOrchestratorCompletionSchema } from '../commons/schema.orchestrator.complete.js';
+import { llmModelSchema } from './commons/llmModelSchema.js';
 
 /**
  * This agent creates a response, reflects on it, and improves
@@ -30,6 +30,7 @@ export const reflectorAgentOrchestrator = createArvoOrchestratorContract({
               model: 'gpt-4o-mini',
             },
           }),
+        context: z.string().optional().describe('The optional context for generations'),
         instructions: z.string().describe('The instrcutions or input to the Agent on what to generate'),
         json_response: z.boolean().default(false).describe('Should the generated output be a json object'),
         criteria: z

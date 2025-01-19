@@ -1,11 +1,11 @@
-import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
-import type { ArvoEvent, VersionedArvoContract } from 'arvo-core';
-import { settings, createEventFromHono } from '../commons/index.js';
-import z from 'zod';
-import { createSimpleEventBroker, SimpleMachineMemory } from 'arvo-xstate';
-import * as Services from '@repo/services';
+import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 import * as Orchestrators from '@repo/orchestrators';
+import * as Services from '@repo/services';
 import { resolveSimpleEventBroker } from '@repo/utilities';
+import type { VersionedArvoContract } from 'arvo-core';
+import { SimpleMachineMemory, createSimpleEventBroker } from 'arvo-xstate';
+import z from 'zod';
+import { createEventFromHono, settings } from '../commons/index.js';
 
 // biome-ignore lint/suspicious/noExplicitAny: Needs to be general
 const createContractRouteSpec = (contract: VersionedArvoContract<any, any>) => {
@@ -84,11 +84,10 @@ export const createExecuteRouter = (contracts: VersionedArvoContract<any, any>[]
     api.openapi(route, async (c) => {
       try {
         const memory = new SimpleMachineMemory();
-        const streamer = async (data: ArvoEvent) => console.log({ data });
         let error: Error | null = null;
         const broker = createSimpleEventBroker(
           [
-            ...Object.values(Services).map((item) => item({ settings, streamer })),
+            ...Object.values(Services).map((item) => item({ settings })),
             ...Object.values(Orchestrators).map((item) => item(memory)),
           ],
           (e: Error) => {
