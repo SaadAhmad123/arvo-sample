@@ -10,14 +10,19 @@ export type Critique = {
   improvement: string | null;
 };
 
+export type Generation = {
+  content: string;
+  evaluation_score: number;
+  critique: Critique[];
+};
+
 export type ReflectorAgentContext = {
   initSubject$$: string;
   status: 'success' | 'error' | null;
   errors: z.infer<typeof ArvoErrorSchema>[];
   configuration: ContractType['accepts']['data'];
-  generations: string[];
-  json_valid: boolean | null;
-  critiques: Critique[][];
+  generations: Generation[];
+  jsonValid: boolean | null;
   currentIteration: number;
   maxIterations: number;
   tokenUsage: Record<string, number>;

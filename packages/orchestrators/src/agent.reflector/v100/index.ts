@@ -63,7 +63,7 @@ export const reflectorAgentMachineV100 = setupArvoMachine({
     setGeneratorResponse: assign(({ context, event }) => {
       if (event.type === 'arvo.orc.llm.done' && event.data.status === 'success' && event.data.result) {
         return {
-          json_valid: event.data.result.json_valid,
+          jsonValid: event.data.result.json_valid,
           generations: [...context.generations, event.data.result?.message.content],
           tokenUsage: {
             ...context.tokenUsage,
@@ -143,26 +143,42 @@ export const reflectorAgentMachineV100 = setupArvoMachine({
     configuration: input.data,
     errors: [],
     generations: [],
-    critiques: [],
     currentIteration: 0,
     maxIterations: input.data.max_iterations,
     tokenUsage: {},
-    json_valid: null,
+    jsonValid: null,
   }),
   output: ({ context }) => {
-    return {
-      status: context.status ?? 'error',
-      errors: context.errors,
-      result:
-        context.status === 'success'
+    try {
+      const isError =
+        !context.status || context.status === 'error' || context.errors.length || !context.generations.length;
+      return {
+        status: isError ? 'error' : 'success',
+        errors: context.errors,
+        result: !isError
           ? {
-              critiques: context.critiques,
               token_usage: context.tokenUsage,
-              json_valid: context.json_valid,
+              json_valid: context.jsonValid,
               generations: context.generations,
+              // biome-ignore lint/style/noNonNullAssertion: I have put it in a catch block just because of the potential issue
+              best_generation: context.generations[context.generations.length - 1]!,
             }
           : null,
-    };
+      };
+    } catch (e) {
+      return {
+        status: 'error',
+        errors: [
+          ...context.errors,
+          {
+            errorName: 'OUTPUT_GENERATION_ERROR',
+            errorMessage: `Error occurred while compiling the reflector agent final output. ${(e as Error).message}`,
+            errorStack: null,
+          },
+        ],
+        result: null,
+      };
+    }
   },
   initial: 'generator',
   states: {

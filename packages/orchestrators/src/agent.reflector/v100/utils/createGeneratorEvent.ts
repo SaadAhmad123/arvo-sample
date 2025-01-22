@@ -3,10 +3,10 @@ import { llmOrchestrator } from '@repo/contracts/orchestrators';
 import type { ReflectorAgentContext } from '../types.js';
 
 export const createGeneratorEvent = (context: ReflectorAgentContext) => {
-  const generationContext = context.configuration.context
+  const generationContext = context.configuration.context?.length
     ? cleanString(`
     <context>
-    ${context.configuration.context}
+    ${context.configuration.context.map((item, index) => `<item id='${index}'>${item}</item>`)}
     </context>
   `)
     : '';
