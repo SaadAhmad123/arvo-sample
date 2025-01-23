@@ -1,7 +1,24 @@
 import { cleanString, createArvoOrchestratorContract } from 'arvo-core';
-import { z } from 'zod';
+import { object, z } from 'zod';
 import { createOrchestratorCompletionSchema } from '../commons/schema.orchestrator.complete.js';
 import { llmModelSchema } from './commons/llmModelSchema.js';
+
+const critiqueSchema = z.object({
+  criterion: z.string(),
+  satisfied: z.boolean(),
+  improvement: z.string().nullable(),
+});
+
+const generationSchema = z.object({
+  valid_json: z.boolean().nullable(),
+  content: z.string(),
+  evaluation_score: z.number().min(0).max(1),
+  critique: critiqueSchema.array(),
+  total_token_usage: z.object({
+    critique: z.number(),
+    generation: z.number()
+  }),
+});
 
 /**
  * This agent creates a response, reflects on it, and improves
@@ -30,7 +47,11 @@ export const reflectorAgentOrchestrator = createArvoOrchestratorContract({
               model: 'gpt-4o-mini',
             },
           }),
-        context: z.string().optional().describe('The optional context for generations'),
+        context: z
+          .string()
+          .array()
+          .optional()
+          .describe('The optional context for generations. These are the context chunks.'),
         instructions: z.string().describe('The instrcutions or input to the Agent on what to generate'),
         json_response: z.boolean().default(false).describe('Should the generated output be a json object'),
         criteria: z
@@ -63,20 +84,11 @@ export const reflectorAgentOrchestrator = createArvoOrchestratorContract({
               When json_response is False, this field defaults to Null.
             `),
             ),
-          generations: z
-            .string()
+          generations: generationSchema
             .array()
             .describe('A list of all the generations. The last one is the final generation'),
-          critiques: z
-            .object({
-              criterion: z.string(),
-              satisfied: z.boolean(),
-              improvement: z.string().nullable(),
-            })
-            .array()
-            .array()
-            .describe('A list of all the critiques from the critic'),
-          token_usage: z.record(z.string(), z.number()),
+          best_generation: generationSchema,
+          total_token_usage: z.number().describe("The total token usage of the entire process")
         }),
       ),
     },

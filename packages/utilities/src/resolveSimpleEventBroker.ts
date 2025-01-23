@@ -4,6 +4,7 @@ import type { SimpleEventBroker } from 'arvo-xstate';
 type ResolutionResult = {
   event: ArvoEvent;
   history: ArvoEvent[];
+  totalExecutionUnits: number
 };
 
 /**
@@ -76,6 +77,7 @@ export const resolveSimpleEventBroker = async (
     return {
       event: finalEvent,
       history: broker.events,
+      totalExecutionUnits: broker.events.reduce((acc, cur) => acc + (cur.executionunits ?? 0), 0)
     };
   } finally {
     unsubscriber();

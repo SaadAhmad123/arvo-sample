@@ -21,6 +21,10 @@ install:
 # Run build and then install (for linking new code between packages)
 link: build install
 
+link_contract:
+  pnpm run build --filter="@repo/contracts"
+  pnpm install
+
 # Run the biome formatter over the code
 format:
   pnpm run format
@@ -42,3 +46,8 @@ run_jaeger:
     -p 4318:4318 \
     -p 9411:9411 \
     jaegertracing/all-in-one:latest
+
+run_api: 
+  pnpm run build --filter="@app/federated_api"
+  pnpm i
+  pnpm run dev --filter="@app/federated_api"

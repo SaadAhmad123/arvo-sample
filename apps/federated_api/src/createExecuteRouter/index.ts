@@ -103,6 +103,7 @@ export const createExecuteRouter = (contracts: VersionedArvoContract<any, any>[]
 
         return c.json(
           {
+            total_execution_units: result.totalExecutionUnits,
             event: {
               type: result.event.type,
               dataschema: result.event.dataschema,

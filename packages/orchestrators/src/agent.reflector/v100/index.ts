@@ -1,6 +1,6 @@
 import { setupArvoMachine } from 'arvo-xstate';
 import { reflectorAgentOrchestrator, llmOrchestrator } from '@repo/contracts/orchestrators';
-import type { ReflectorAgentContext } from './types.js';
+import type { Generation, ReflectorAgentContext } from './types.js';
 import type z from 'zod';
 import { assign, emit } from 'xstate';
 import { createCriticEvent, CriticResponseSchema } from './utils/createCriticEvent.js';
@@ -32,11 +32,9 @@ export const reflectorAgentMachineV100 = setupArvoMachine({
     },
     isCriteriaAchieved: ({ context }) => {
       if (!context.configuration.criteria.length) return true;
-      const latestCritiques = context.critiques[context.critiques.length - 1];
-      if (!latestCritiques) return false;
-      const satisfiedCritiques = latestCritiques.filter((item) => item.satisfied);
-      const currentSatisfactionPercentage = satisfiedCritiques.length / latestCritiques.length;
-      return currentSatisfactionPercentage >= context.configuration.criteria_satisfaction_threshold;
+      const latestGeneration = context.generations[context.generations.length - 1]
+      if (!latestGeneration) return true;
+      return latestGeneration.evaluation_score >= context.configuration.criteria_satisfaction_threshold
     },
   },
   actions: {
@@ -63,12 +61,11 @@ export const reflectorAgentMachineV100 = setupArvoMachine({
     setGeneratorResponse: assign(({ context, event }) => {
       if (event.type === 'arvo.orc.llm.done' && event.data.status === 'success' && event.data.result) {
         return {
-          json_valid: event.data.result.json_valid,
-          generations: [...context.generations, event.data.result?.message.content],
-          tokenUsage: {
-            ...context.tokenUsage,
-            [`generator.${context.currentIteration}`]: event.data.result.usage.tokens.total,
-          },
+          rawGenerations: [...context.rawGenerations, {
+            valid_json: event.data.result.json_valid,
+            content: event.data.result.message.content,
+            total_tokens: event.data.result.usage.tokens.total
+          }],
         };
       }
       return context;
@@ -82,19 +79,29 @@ export const reflectorAgentMachineV100 = setupArvoMachine({
       ) {
         const parsedResponse = CriticResponseSchema.safeParse(JSON.parse(event.data.result.message.content));
         if (!parsedResponse.success) return context;
-        return {
-          critiques: [
-            ...context.critiques,
-            parsedResponse.data.analysis.map((item) => ({
-              criterion: context.configuration.criteria[item.id] ?? '',
-              satisfied: item.satisfied,
-              improvement: item.improvement,
-            })),
-          ],
-          tokenUsage: {
-            ...context.tokenUsage,
-            [`critic.${context.currentIteration}`]: event.data.result.usage.tokens.total,
+        if (!context.rawGenerations[context.rawGenerations.length - 1]) return context;
+        const generationCritique = parsedResponse.data.analysis.map((item) => ({
+          criterion: context.configuration.criteria[item.id] ?? '',
+          satisfied: item.satisfied,
+          improvement: item.improvement,
+        }))
+        const evaluationScore = generationCritique.length ? generationCritique.filter(item => item.satisfied).length / generationCritique.length : 1
+        const rawGeneration = context.rawGenerations[context.rawGenerations.length - 1]!
+        const generation: Generation = {
+          content: rawGeneration.content,
+          critique: generationCritique,
+          total_token_usage: {
+            generation: rawGeneration.total_tokens,
+            critique: event.data.result.usage.tokens.total,
           },
+          evaluation_score: evaluationScore,
+          valid_json: rawGeneration.valid_json
+        }
+
+        return {
+          generations: [
+            ...context.generations, generation
+          ]
         };
       }
       return context;
@@ -143,26 +150,46 @@ export const reflectorAgentMachineV100 = setupArvoMachine({
     configuration: input.data,
     errors: [],
     generations: [],
-    critiques: [],
     currentIteration: 0,
     maxIterations: input.data.max_iterations,
     tokenUsage: {},
-    json_valid: null,
+    rawGenerations: []
   }),
   output: ({ context }) => {
-    return {
-      status: context.status ?? 'error',
-      errors: context.errors,
-      result:
-        context.status === 'success'
-          ? {
-              critiques: context.critiques,
-              token_usage: context.tokenUsage,
-              json_valid: context.json_valid,
-              generations: context.generations,
-            }
-          : null,
-    };
+    try {
+      if (!context.status || context.status === 'error' || context.errors.length) {
+        throw new Error("Error(s) occured in the process")
+      }
+      if (!context.generations[0]) {
+        throw new Error("No generation generated during the process")
+      }
+      // With >=, if all the values are the same then the latest record will be picked. With > it will be the first record and due to the
+      // nature of refinement every successive generation will be better than the last for the most part
+      const bestGeneration = context.generations.reduce((acc, cur) => cur.evaluation_score >= acc.evaluation_score ? cur : acc, context.generations[0])
+      return {
+        status: 'success',
+        errors: context.errors,
+        result: {
+          total_token_usage: context.generations.reduce((acc, cur) => acc + cur.total_token_usage.critique + cur.total_token_usage.generation, 0),
+          json_valid: bestGeneration.valid_json,
+          generations: context.generations,
+          best_generation: bestGeneration,
+        }
+      };
+    } catch (e) {
+      return {
+        status: 'error',
+        errors: [
+          ...context.errors,
+          {
+            errorName: 'OUTPUT_GENERATION_ERROR',
+            errorMessage: `Error occurred while compiling the reflector agent final output. ${(e as Error).message}`,
+            errorStack: null,
+          },
+        ],
+        result: null,
+      };
+    }
   },
   initial: 'generator',
   states: {
