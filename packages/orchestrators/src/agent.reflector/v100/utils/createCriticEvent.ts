@@ -43,7 +43,7 @@ export const createCriticEvent = (context: ReflectorAgentContext) => {
                   ${context.configuration.criteria.map((item, index) => `<item id="${index}">${item}</item>`).join('\n')}
                   </criteria>
                   <output>
-                  ${context.generations.length ? context.generations[context.generations.length - 1] : ''}
+                  ${context.rawGenerations[context.generations.length - 1]?.content ?? ''}
                   </output>
                   Evaluate using these steps:
                   1. Understand each criterion

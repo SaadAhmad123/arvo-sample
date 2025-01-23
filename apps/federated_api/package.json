@@ -1,5 +1,5 @@
 {
-  "name": "@apps/federated_api",
+  "name": "@app/federated_api",
   "version": "0.0.0",
   "description": "This is the federated API, serving all the services as simple REST API",
   "private": true,

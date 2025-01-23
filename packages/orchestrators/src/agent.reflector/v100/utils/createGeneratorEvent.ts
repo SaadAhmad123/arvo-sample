@@ -26,9 +26,6 @@ export const createGeneratorEvent = (context: ReflectorAgentContext) => {
       <instructions>
       ${context.configuration.instructions}
       </instructions>
-      <criteria>
-      ${context.configuration.criteria.map((item, index) => `<item id="${index}">${item}</item>`).join('\n')}
-      </criteria>
       Generate the response as per the ${generationContext ? 'context and' : ''} instructions, then validate them against the criteria.
       ${
         context.configuration.json_response
@@ -37,7 +34,7 @@ export const createGeneratorEvent = (context: ReflectorAgentContext) => {
       } 
   `);
 
-  if (context.critiques.length) {
+  if (context.generations.length) {
     systemCommand = cleanString(`
       You are an AI assistant focused on precise task execution. Your role is to:
         ${generationContext ? '- Carefully read and understand the information in <context> tag' : ''}
@@ -56,7 +53,7 @@ export const createGeneratorEvent = (context: ReflectorAgentContext) => {
           ${context.configuration.instructions}
           </instructions>
           <enhancements>
-            ${(context.critiques[context.critiques.length - 1] ?? [])
+            ${(context.generations[context.generations.length - 1]?.critique ?? [])
               .filter((item) => item.improvement)
               .map((item, index) => `<item id="${index}">${item.improvement}</item>`)
               .join('\n')}
@@ -64,12 +61,11 @@ export const createGeneratorEvent = (context: ReflectorAgentContext) => {
           <criteria>
             ${context.configuration.criteria.map((item, index) => `<item id="${index}">${item}</item>`).join('\n')}
           </criteria>
-          <content>
+          <to_modify>
             ${context.generations.length ? context.generations[context.generations.length - 1] : ''}
-          </content>
-          Understand the ${generationContext ? 'context, ' : ''} instructions, enhancements and the critieria. Then analyse the content and
-          provide a modified response which aligns perfectly with instructions, enhancemnets and the 
-          criteria.
+          </to_modify>
+          Understand the ${generationContext ? 'context, ' : ''} instructions, enhancements and the critieria. Then analyse the <to_modify> content and
+          only provide a the modified response which aligns perfectly with instructions, enhancemnets and the criteria.
           ${
             context.configuration.json_response
               ? 'Respond in the required JSON format'
