@@ -29,6 +29,7 @@ export const createFederatedAPI = (contracts: VersionedArvoContract<any, any>[])
 
       return c.json(
         {
+          total_execution_units: result.totalExecutionUnits,
           event: transformArvoEvent(result.event),
           history: result.history.map(transformArvoEvent),
         },
@@ -73,7 +74,10 @@ export const createFederatedAPI = (contracts: VersionedArvoContract<any, any>[])
 
         await stream.writeSSE({
           event: 'success',
-          data: JSON.stringify(result.event.toJSON()),
+          data: JSON.stringify({
+            ...result.event.toJSON(),
+            total_execution_units: result.totalExecutionUnits,
+          }),
           id: result.event.id,
         });
       } catch (e) {

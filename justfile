@@ -47,6 +47,7 @@ run_jaeger:
     -p 9411:9411 \
     jaegertracing/all-in-one:latest
 
-
-run_api: build install
+run_api: 
+  pnpm run build --filter="@app/federated_api"
+  pnpm i
   pnpm run dev --filter="@app/federated_api"

@@ -7,6 +7,8 @@ import type { VersionedArvoContract } from 'arvo-core';
 import {} from 'arvo-xstate';
 import { createExecuteRouter } from './createExecuteRouter/index.js';
 import { createFederatedAPI } from './createFederatedAPI/index.js';
+import { telemetrySdkStart } from 'src/commons/otel.js';
+telemetrySdkStart();
 
 // biome-ignore lint/suspicious/noExplicitAny: Needs to be general
 const enabledContracts: VersionedArvoContract<any, any>[] = [
