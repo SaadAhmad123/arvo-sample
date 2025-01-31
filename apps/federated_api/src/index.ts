@@ -4,10 +4,10 @@ import { OpenAPIHono } from '@hono/zod-openapi';
 import { llmOrchestrator, reflectorAgentOrchestrator } from '@repo/contracts/orchestrators';
 import { anthropicCompletions, openaiCompletions } from '@repo/contracts/services';
 import type { VersionedArvoContract } from 'arvo-core';
-import {} from 'arvo-xstate';
+import { telemetrySdkStart } from 'src/commons/otel.js';
 import { createExecuteRouter } from './createExecuteRouter/index.js';
 import { createFederatedAPI } from './createFederatedAPI/index.js';
-import { telemetrySdkStart } from 'src/commons/otel.js';
+
 telemetrySdkStart();
 
 // biome-ignore lint/suspicious/noExplicitAny: Needs to be general

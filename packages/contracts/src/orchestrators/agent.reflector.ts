@@ -1,5 +1,5 @@
 import { cleanString, createArvoOrchestratorContract } from 'arvo-core';
-import { object, z } from 'zod';
+import { z } from 'zod';
 import { createOrchestratorCompletionSchema } from '../commons/schema.orchestrator.complete.js';
 import { llmModelSchema } from './commons/llmModelSchema.js';
 
@@ -16,7 +16,7 @@ const generationSchema = z.object({
   critique: critiqueSchema.array(),
   total_token_usage: z.object({
     critique: z.number(),
-    generation: z.number()
+    generation: z.number(),
   }),
 });
 
@@ -88,7 +88,7 @@ export const reflectorAgentOrchestrator = createArvoOrchestratorContract({
             .array()
             .describe('A list of all the generations. The last one is the final generation'),
           best_generation: generationSchema,
-          total_token_usage: z.number().describe("The total token usage of the entire process")
+          total_token_usage: z.number().describe('The total token usage of the entire process'),
         }),
       ),
     },

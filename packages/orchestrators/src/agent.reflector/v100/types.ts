@@ -3,11 +3,10 @@ import type { ArvoErrorSchema, InferVersionedArvoContract, VersionedArvoContract
 import type { z } from 'zod';
 
 type ContractType = InferVersionedArvoContract<VersionedArvoContract<typeof reflectorAgentOrchestrator, '1.0.0'>>;
-type ContractResultType = NonNullable<ContractType['emits']['arvo.orc.agent.reflector.done']['data']['result']> 
+type ContractResultType = NonNullable<ContractType['emits']['arvo.orc.agent.reflector.done']['data']['result']>;
 
 export type Generation = ContractResultType['generations'][number];
 export type Critique = Generation['critique'][number];
-
 
 export type ReflectorAgentContext = {
   initSubject$$: string;
@@ -18,8 +17,8 @@ export type ReflectorAgentContext = {
   currentIteration: number;
   maxIterations: number;
   rawGenerations: {
-    valid_json: boolean | null
-    content: string 
-    total_tokens: number
+    valid_json: boolean | null;
+    content: string;
+    total_tokens: number;
   }[];
 };

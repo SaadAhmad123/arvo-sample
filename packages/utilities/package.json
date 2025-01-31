@@ -23,9 +23,9 @@
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.3.0",
-    "arvo-core": "^2.2.6",
-    "arvo-event-handler": "^2.2.6",
-    "arvo-xstate": "^2.2.6",
+    "arvo-core": "^2.2.10",
+    "arvo-event-handler": "^2.2.10",
+    "arvo-xstate": "^2.2.10",
     "zod": "^3.24.1"
   }
 }

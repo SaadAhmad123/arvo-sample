@@ -22,23 +22,23 @@
     "@material/material-color-utilities": "^0.3.0",
     "@repo/tsconfig": "workspace:*",
     "@repo/utilities": "workspace:*",
-    "arvo-core": "^2.2.6",
-    "arvo-event-handler": "^2.2.6",
-    "arvo-xstate": "^2.2.6",
+    "arvo-core": "^2.2.10",
+    "arvo-event-handler": "^2.2.10",
+    "arvo-xstate": "^2.2.10",
     "browserify-zlib": "^0.2.0",
-    "framer-motion": "^11.15.0",
+    "framer-motion": "^11.18.2",
     "lucide-react": "^0.469.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/node": "^20.17.16",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
+    "postcss": "^8.5.1",
     "tailwindcss": "^3.4.17",
-    "tsup": "^8.3.5",
-    "typescript": "^5"
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3"
   }
 }

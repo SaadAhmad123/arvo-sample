@@ -47,7 +47,16 @@ run_jaeger:
     -p 9411:9411 \
     jaegertracing/all-in-one:latest
 
+# Run the federated API
 run_api: 
   pnpm run build --filter="@app/federated_api"
   pnpm i
   pnpm run dev --filter="@app/federated_api"
+
+# Upgrade all dependencies
+upgrade:
+  pnpm upgrade -r
+
+# Upgrade only arvo dependencies
+upgrade_arvo:
+  pnpm upgrade arvo-core arvo-event-handler arvo-xstate -r

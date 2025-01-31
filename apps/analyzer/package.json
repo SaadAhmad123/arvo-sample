@@ -9,27 +9,27 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@material/material-color-utilities": "^0.3.0",
-    "@mui/icons-material": "^6.3.1",
+    "@mui/icons-material": "^6.4.2",
     "@repo/material-ui": "workspace:*",
     "@repo/tsconfig": "workspace:*",
     "@repo/utilities": "workspace:*",
-    "arvo-core": "^2.2.6",
-    "arvo-event-handler": "^2.2.6",
-    "arvo-xstate": "^2.2.6",
+    "arvo-core": "^2.2.10",
+    "arvo-event-handler": "^2.2.10",
+    "arvo-xstate": "^2.2.10",
     "browserify-zlib": "^0.2.0",
     "next": "15.1.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "@types/node": "^20.17.16",
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3"
   }
 }
