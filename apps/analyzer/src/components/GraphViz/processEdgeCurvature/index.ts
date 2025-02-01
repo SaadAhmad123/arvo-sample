@@ -1,6 +1,6 @@
 import type { GraphEdge } from '../types';
 import type { Point2D, ProcessedEdgeGroups, ProcessedGraphEdge, TextPosition } from './types';
-import { v4 as uuid4 } from 'uuid'
+import { v4 as uuid4 } from 'uuid';
 
 export const processEdgeCurvature = (edges: GraphEdge[], curvatureMinMax: number): ProcessedGraphEdge[] => {
   const processedEdges = edges.map((item) => ({

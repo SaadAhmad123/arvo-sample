@@ -6,7 +6,7 @@ import type { GraphNode, IGraphViz } from './types';
 import { calculateCurvedTextPosition, processEdgeCurvature } from './processEdgeCurvature';
 import { ProcessedGraphEdge, TextPosition } from './processEdgeCurvature/types';
 import { drawBoxNode, drawRoundNode } from './drawMethods';
-import { Button } from '@repo/material-ui'
+import { Button } from '@repo/material-ui';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 
 export const GraphViz: React.FC<IGraphViz> = ({
@@ -17,12 +17,12 @@ export const GraphViz: React.FC<IGraphViz> = ({
   backgroundColor = '#fefefe',
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const graphRef = useRef(null)
+  const graphRef = useRef(null);
   const hoveredComponentRef = useRef({
     nodes: new Set<string>(),
     links: new Set<string>(),
-    linkConnectedNodes: new Set<string>()
-  })
+    linkConnectedNodes: new Set<string>(),
+  });
   const globalfontSize: number = 16;
   const curvatureMinMax = 0.15;
 
@@ -40,45 +40,55 @@ export const GraphViz: React.FC<IGraphViz> = ({
       .width(containerRef.current.offsetWidth)
       .backgroundColor(backgroundColor)
       .linkCurvature((link: ProcessedGraphEdge) => link.curvature)
-      .linkDirectionalArrowLength((link: ProcessedGraphEdge) => (link.direction === 'bidirectional' ? 0 : hoveredComponentRef.current.links.has(link?.id ?? '') ? 24 : 16))
+      .linkDirectionalArrowLength((link: ProcessedGraphEdge) =>
+        link.direction === 'bidirectional' ? 0 : hoveredComponentRef.current.links.has(link?.id ?? '') ? 24 : 16,
+      )
       .linkDirectionalArrowRelPos(0.8)
-      .linkWidth((link: ProcessedGraphEdge) => (hoveredComponentRef.current.links.has(link?.id ?? '')) ? 3 : 1.5)
+      .linkWidth((link: ProcessedGraphEdge) => (hoveredComponentRef.current.links.has(link?.id ?? '') ? 3 : 1.5))
       .linkLineDash((link: ProcessedGraphEdge) => (link.lineType === 'dotted' ? [10, 10] : null))
-      .linkColor((link: ProcessedGraphEdge) => (link?.style?.color?.link ?? 'grey'))
-      .linkDirectionalParticleColor((link: ProcessedGraphEdge) => (link?.style?.color?.link ?? 'grey'))
-      .linkDirectionalParticleWidth((link: ProcessedGraphEdge) => (link.direction === 'bidirectional' ? 0 : hoveredComponentRef.current.links.has(link?.id ?? '') ? 8 : 4))
+      .linkColor((link: ProcessedGraphEdge) => link?.style?.color?.link ?? 'grey')
+      .linkDirectionalParticleColor((link: ProcessedGraphEdge) => link?.style?.color?.link ?? 'grey')
+      .linkDirectionalParticleWidth((link: ProcessedGraphEdge) =>
+        link.direction === 'bidirectional' ? 0 : hoveredComponentRef.current.links.has(link?.id ?? '') ? 8 : 4,
+      )
       .linkDirectionalParticles((link: ProcessedGraphEdge) => (link.direction === 'bidirectional' ? 0 : 2))
       .linkDirectionalParticleSpeed(1e-3)
       .enableZoomInteraction(true)
       .onNodeHover((node: GraphNode) => {
-        hoveredComponentRef.current.nodes.clear()
+        hoveredComponentRef.current.nodes.clear();
         if (node?.id) {
           hoveredComponentRef.current.nodes.add(node.id);
         }
       })
-      .onLinkHover((
-        link: Omit<ProcessedGraphEdge, 'source' | 'target'> & {
-          source: GraphNode & NodeObject;
-          target: GraphNode & NodeObject;
+      .onLinkHover(
+        (
+          link: Omit<ProcessedGraphEdge, 'source' | 'target'> & {
+            source: GraphNode & NodeObject;
+            target: GraphNode & NodeObject;
+          },
+        ) => {
+          hoveredComponentRef.current.links.clear();
+          hoveredComponentRef.current.linkConnectedNodes.clear();
+          if (link?.id && link?.lineType !== 'dotted') {
+            hoveredComponentRef.current.links.add(link.id);
+            hoveredComponentRef.current.linkConnectedNodes.add(
+              typeof link.source === 'object' ? link.source.id : link.source,
+            );
+            hoveredComponentRef.current.linkConnectedNodes.add(
+              typeof link.target === 'object' ? link.target.id : link.target,
+            );
+          }
         },
-      ) => {
-        hoveredComponentRef.current.links.clear()
-        hoveredComponentRef.current.linkConnectedNodes.clear()
-        if (link?.id && link?.lineType !== 'dotted') {
-          hoveredComponentRef.current.links.add(link.id)
-          hoveredComponentRef.current.linkConnectedNodes.add(typeof (link.source) === 'object' ? link.source.id : link.source)
-          hoveredComponentRef.current.linkConnectedNodes.add(typeof (link.target) === 'object' ? link.target.id : link.target)
-        }
-      })
+      )
       .nodeCanvasObject((node: NodeObject & GraphNode, ctx: CanvasRenderingContext2D) => {
-        let backgroundColor = node.style?.color?.background?.default
-        let textColor = node.style?.color?.text?.default
+        let backgroundColor = node.style?.color?.background?.default;
+        let textColor = node.style?.color?.text?.default;
         if (
-          hoveredComponentRef.current.nodes.has(node.id) || 
+          hoveredComponentRef.current.nodes.has(node.id) ||
           hoveredComponentRef.current.linkConnectedNodes.has(node.id)
         ) {
-          backgroundColor = node.style?.color?.background?.hover ?? backgroundColor
-          textColor = node.style?.color?.text?.hover ?? textColor
+          backgroundColor = node.style?.color?.background?.hover ?? backgroundColor;
+          textColor = node.style?.color?.text?.hover ?? textColor;
         }
         if (node.style?.shape === 'rounded') {
           drawRoundNode({
@@ -158,20 +168,28 @@ export const GraphViz: React.FC<IGraphViz> = ({
     // Adjust force simulation parameters
     graph.d3Force('charge').strength(-100000).distanceMin(1000).distanceMax(2000);
     graph.d3AlphaDecay(0.1);
-    
-    graphRef.current = graph
+
+    graphRef.current = graph;
     return () => {
       graph._destructor();
     };
   }, [data, backgroundColor, nodeSize, onNodeClick]);
 
-  return <div className='relative flex-1 overflow-hidden'>
-    <div className='flex-1 bg-black overflow-hidden' ref={containerRef} />
-    <div className='absolute left-4 bottom-4'>
-      <Button type='button' variant='filled' title='Reset' icon={<RotateLeftIcon/>} onClick={() => {
-        // @ts-ignore
-        graphRef.current?.zoomToFit(500, 10)
-      }}/>
+  return (
+    <div className='relative flex-1 overflow-hidden'>
+      <div className='flex-1 bg-black overflow-hidden' ref={containerRef} />
+      <div className='absolute left-4 bottom-4'>
+        <Button
+          type='button'
+          variant='filled'
+          title='Reset'
+          icon={<RotateLeftIcon />}
+          onClick={() => {
+            // @ts-ignore
+            graphRef.current?.zoomToFit(100, 10);
+          }}
+        />
+      </div>
     </div>
-  </div>
+  );
 };

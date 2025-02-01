@@ -35,11 +35,11 @@ export type GraphEdge = {
   metadata?: Record<string, any>;
   style?: {
     color?: {
-      link?: string
-      background?: string
-      text?: string
-    }
-  }
+      link?: string;
+      background?: string;
+      text?: string;
+    };
+  };
 };
 
 export type GraphData = {
@@ -53,5 +53,4 @@ export interface IGraphViz {
   onNodeClick?: (node: NodeObject & GraphEdge) => void;
   onLinkClick?: (link: ProcessedGraphEdge) => void;
   backgroundColor?: string;
-  
 }
