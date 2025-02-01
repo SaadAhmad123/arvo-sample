@@ -15,5 +15,13 @@ export const openaiCompletions = createSimpleArvoContract({
       ),
       emits: BaseGenAISchema.emit,
     },
+    '2.0.0': {
+      accepts: BaseGenAISchema.accept.merge(
+        z.object({
+          model: openai.default('gpt-4o-mini'),
+        }),
+      ),
+      emits: BaseGenAISchema.emit,
+    },
   },
 });

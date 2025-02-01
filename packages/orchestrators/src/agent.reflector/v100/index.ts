@@ -1,4 +1,5 @@
 import { llmOrchestrator, reflectorAgentOrchestrator } from '@repo/contracts/orchestrators';
+import { openaiCompletions } from '@repo/contracts/services';
 import type { ArvoErrorType } from 'arvo-core';
 import { setupArvoMachine } from 'arvo-xstate';
 import { assign, emit } from 'xstate';
@@ -13,6 +14,7 @@ export const reflectorAgentMachineV100 = setupArvoMachine({
     self: reflectorAgentOrchestrator.version('1.0.0'),
     services: {
       llm: llmOrchestrator.version('1.0.0'),
+      openai: openaiCompletions.version('2.0.0'),
     },
   },
   types: {
