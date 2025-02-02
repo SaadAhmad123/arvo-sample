@@ -12,7 +12,7 @@ type ButtonParam = {
   disabled?: boolean;
   width?: 'full' | number;
   justifyContent?: 'start' | 'center' | 'end';
-  className?: string
+  className?: string;
 };
 
 export const Button: React.FC<ButtonParam> = (param) => {

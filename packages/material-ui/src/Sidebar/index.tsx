@@ -22,16 +22,10 @@ export const Sidebar: React.FC<SidebarParam> = ({
   const windowSize = useWindowSize();
 
   return (
-    <Drawer
-      open={show ?? false}
-      anchor={direction}
-      onClose={onClickBackground}
-    >
+    <Drawer open={show ?? false} anchor={direction} onClose={onClickBackground}>
       <div
         className={
-          className
-            ? className
-            : 'h-screen overflow-y-auto w-full bg-surface-container-low text-on-surface p-4'
+          className ? className : 'h-screen overflow-y-auto w-full bg-surface-container-low text-on-surface p-4'
         }
       >
         <div style={{ width: width ?? (windowSize.width > 1256 ? windowSize.width * 0.5 : windowSize.width * 0.9) }}>

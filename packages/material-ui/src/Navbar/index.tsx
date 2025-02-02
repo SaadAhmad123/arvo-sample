@@ -41,7 +41,7 @@ export function Navbar<T extends Record<string, NavButtonItem>>({
       <div className='flex md:hidden items-center justify-between fixed top-0 h-[56px] w-screen bg-surface-container text-on-surface  px-4 z-50'>
         <div className='flex items-center gap-2'>
           <IconButton icon={<MenuOutlinedIcon />} onClick={toggleSidebar} />
-          <h1 className='text-md font-medium'>{title}</h1>
+          <h1 className='text-md font-bold'>{title}</h1>
         </div>
         <Sidebar show={showSidebar} onClickBackground={toggleSidebar}>
           <div className='flex items-center gap-2'>
