@@ -11,7 +11,7 @@ export const NavButton: React.FC<NavButtonParam> = ({ title, icon, onClick, sele
   return (
     <button type='button' className='group size-[56px] flex flex-col items-center justify-center' onClick={onClick}>
       <span
-        className={`flex items-center justify-center w-[56px] h-[32px] group-hover:bg-surface-variant rounded-[16px] transition-all duration-400 ${selected ? 'bg-secondary-container' : ''} mb-[4px] text-on-surface`}
+        className={`flex items-center justify-center w-[56px] h-[32px] rounded-[16px] transition-all duration-400 ${selected ? 'bg-secondary-container' : 'group-hover:bg-surface-variant'} mb-[4px] text-on-surface`}
       >
         {icon}
       </span>

@@ -1,4 +1,4 @@
-import { ProcessedGraphEdge } from '@/components/GraphViz/processEdgeCurvature/types';
+import type { ProcessedGraphEdge } from '@/components/GraphViz/processEdgeCurvature/types';
 import type { NodeObject } from 'force-graph';
 
 export type EdgeDirection = 'unidirectional' | 'bidirectional';
@@ -9,6 +9,7 @@ export type GraphNode = {
   id: string;
   title: string;
   group: string;
+  // biome-ignore lint/suspicious/noExplicitAny: Needs to be general
   metadata?: Record<string, any>;
   style?: {
     shape: GraphNodeShape;
@@ -32,6 +33,7 @@ export type GraphEdge = {
   title: string;
   direction: EdgeDirection;
   lineType: EdgeLineType;
+  // biome-ignore lint/suspicious/noExplicitAny: Needs to be general
   metadata?: Record<string, any>;
   style?: {
     color?: {

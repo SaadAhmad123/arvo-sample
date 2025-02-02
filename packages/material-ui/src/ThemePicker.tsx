@@ -1,7 +1,11 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { Moon, Palette, RotateCcw, Sun } from 'lucide-react';
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
+import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+
 import { useEffect, useState } from 'react';
 import { FAB } from './FAB';
 import { MaterialThemeBuilder, type ThemeMode } from './utils';
@@ -189,8 +193,8 @@ export const ThemePicker = () => {
                   >
                     <div className='flex justify-center gap-4'>
                       {[
-                        { mode: 'light' as const, Icon: Sun },
-                        { mode: 'dark' as const, Icon: Moon },
+                        { mode: 'light' as const, Icon: LightModeOutlinedIcon },
+                        { mode: 'dark' as const, Icon: DarkModeOutlinedIcon },
                       ].map(({ mode, Icon }) => (
                         <button
                           key={mode}
@@ -202,7 +206,7 @@ export const ThemePicker = () => {
                               : 'bg-surface-container-highest text-on-surface hover:bg-surface-container-highest/80'
                           }`}
                         >
-                          <Icon size={24} />
+                          <Icon />
                         </button>
                       ))}
                     </div>
@@ -217,10 +221,7 @@ export const ThemePicker = () => {
                   className='p-3 rounded-full text-on-surface bg-surface-container-low active:scale-90 transition-colors duration-200 flex items-center justify-center'
                   title='Reset to default'
                 >
-                  <RotateCcw
-                    size={20}
-                    className='text-on-surface-variant group-hover:text-primary transition-colors duration-200'
-                  />
+                  <RotateLeftIcon className='text-on-surface-variant group-hover:text-primary transition-colors duration-200' />
                 </button>
                 <p className='flex-1 text-center bg-surface-container-low p-2 rounded-xl text-on-surface'>
                   {preferences.color}
@@ -232,11 +233,11 @@ export const ThemePicker = () => {
       </AnimatePresence>
 
       <FAB onClick={() => setIsOpen(!isOpen)} className='hidden xl:flex' size='large'>
-        <Palette className='text-on-primary' size={36} />
+        <ColorLensOutlinedIcon className='text-on-primary' fontSize={'large'} />
       </FAB>
 
       <FAB onClick={() => setIsOpen(!isOpen)} className='flex xl:hidden'>
-        <Palette className='text-on-primary' size={24} />
+        <ColorLensOutlinedIcon className='text-on-primary' />
       </FAB>
     </div>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemePicker } from '@repo/material-ui';
+import { Card, Container } from '@repo/material-ui';
 import * as Orchestrators from '@repo/orchestrators';
 import * as Services from '@repo/services';
 import dynamic from 'next/dynamic';
@@ -92,18 +92,17 @@ export default function Home() {
   );
 
   const graphData = useMemo(() => generateGraphData(serviceEventFlow), [serviceEventFlow]);
-
-  const handleNodeClick = (node: unknown) => {
-    console.log('Node clicked:', node);
-  };
-
   return (
-    <>
-      <div className='flex h-screen w-screen z-0 shadow-xl'>
+    <Container>
+      <Card>Hello</Card>
+      <p>HGello WEoreld </p>
+    </Container>
+  );
+}
+
+/*
+<div className='flex h-screen w-screen z-0 shadow-xl'>
         <GraphViz data={graphData} onNodeClick={handleNodeClick} nodeSize={56} backgroundColor='#f9f9f9 ' />
       </div>
       <pre className='text-on-background'>{JSON.stringify(serviceEventFlow, null, 2)}</pre>
-      <ThemePicker />
-    </>
-  );
-}
+*/

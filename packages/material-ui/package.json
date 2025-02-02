@@ -9,6 +9,11 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index.js"
     },
+    "./hooks": {
+      "import": "./dist/hooks/index.js",
+      "types": "./dist/hooks/index.d.ts",
+      "require": "./dist/hooks/index.js"
+    },
     "./index.css": {
       "import": "./dist/index.css",
       "require": "./dist/index.css"
@@ -20,6 +25,8 @@
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.3.0",
+    "@mui/icons-material": "^6.4.2",
+    "@mui/material": "^6.4.2",
     "@repo/tsconfig": "workspace:*",
     "@repo/utilities": "workspace:*",
     "arvo-core": "^2.2.10",
@@ -27,7 +34,6 @@
     "arvo-xstate": "^2.2.10",
     "browserify-zlib": "^0.2.0",
     "framer-motion": "^11.18.2",
-    "lucide-react": "^0.469.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

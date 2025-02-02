@@ -1,4 +1,4 @@
-import { BoxNodeParams, BoxNodeStyle } from './types';
+import type { BoxNodeParams, BoxNodeStyle } from './types';
 import { wrapText } from './wrapText';
 
 const DEFAULT_STYLE: Required<BoxNodeStyle> = {

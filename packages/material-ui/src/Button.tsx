@@ -1,7 +1,6 @@
 import React from 'react';
 
 export type ButtonVariant = 'filled' | 'elevated' | 'tonal' | 'outlined' | 'text';
-export type ButtonCover = 'contain' | 'fill';
 
 type ButtonParam = {
   title: string;
@@ -10,9 +9,11 @@ type ButtonParam = {
   tooltip?: string;
   variant?: ButtonVariant;
   onClick?: () => void;
-  cover?: ButtonCover;
   disabled?: boolean;
+  width?: 'full' | number;
+  justifyContent?: 'start' | 'center' | 'end';
 };
+
 export const Button: React.FC<ButtonParam> = (param) => {
   const baseStyle =
     'flex items-center px-6 py-2.5 min-h-[48px] gap-x-2 rounded-full font-medium tracking-[.00714em] text-normal transition-all duration-100 ';
@@ -26,19 +27,19 @@ export const Button: React.FC<ButtonParam> = (param) => {
     outlined: 'bg-transparent text-primary ring-1 ring-outline hover:bg-surface-container-high',
     text: 'bg-transparent text-primary hover:bg-surface-container-high',
   };
-  const coverStyle: Record<ButtonCover, string> = {
-    fill: 'w-full',
-    contain: 'justify-center',
-  };
   const disabledStyle = param.disabled ? '' : '';
 
   return (
     <button
       disabled={param.disabled}
-      className={`${baseStyle} ${variantStyles[param.variant ?? 'filled']} ${coverStyle[param.cover ?? 'contain']} ${disabledStyle}`}
+      className={`${baseStyle} ${variantStyles[param.variant ?? 'filled']} ${disabledStyle}`}
       type={param.type ?? 'button'}
       onClick={param.onClick}
       title={param.tooltip ?? param.title}
+      style={{
+        ...(param.width ? { width: param.width === 'full' ? '100%' : `${param.width}px` } : {}),
+        justifyContent: param.justifyContent ?? 'center',
+      }}
     >
       {param.icon ? <span className='block'>{param.icon}</span> : <></>}
       <span className='block text-left'>{param.title}</span>

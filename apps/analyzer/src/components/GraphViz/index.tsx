@@ -1,13 +1,13 @@
 'use client';
 
+import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import { Button } from '@repo/material-ui';
 import ForceGraph, { type NodeObject } from 'force-graph';
 import React, { useEffect, useRef } from 'react';
-import type { GraphNode, IGraphViz } from './types';
-import { calculateCurvedTextPosition, processEdgeCurvature } from './processEdgeCurvature';
-import { ProcessedGraphEdge, TextPosition } from './processEdgeCurvature/types';
 import { drawBoxNode, drawRoundNode } from './drawMethods';
-import { Button } from '@repo/material-ui';
-import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import { calculateCurvedTextPosition, processEdgeCurvature } from './processEdgeCurvature';
+import type { ProcessedGraphEdge, TextPosition } from './processEdgeCurvature/types';
+import type { GraphNode, IGraphViz } from './types';
 
 export const GraphViz: React.FC<IGraphViz> = ({
   data,
@@ -173,7 +173,7 @@ export const GraphViz: React.FC<IGraphViz> = ({
     return () => {
       graph._destructor();
     };
-  }, [data, backgroundColor, nodeSize, onNodeClick]);
+  }, [data, backgroundColor, nodeSize, onNodeClick, onLinkClick]);
 
   return (
     <div className='relative flex-1 overflow-hidden'>

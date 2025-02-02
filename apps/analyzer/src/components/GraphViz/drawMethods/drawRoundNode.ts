@@ -1,4 +1,4 @@
-import { RoundNodeParams, RoundNodeStyle } from './types';
+import type { RoundNodeParams, RoundNodeStyle } from './types';
 import { wrapText } from './wrapText';
 
 const DEFAULT_ROUND_STYLE: Required<RoundNodeStyle> = {

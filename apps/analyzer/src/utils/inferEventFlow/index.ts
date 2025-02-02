@@ -23,6 +23,7 @@ import type { EventFlow, EventFlowItem } from './types';
  * ```
  */
 const extractEventFlow = (
+  // biome-ignore lint/suspicious/noExplicitAny: Needs to be general
   contract: VersionedArvoContract<any, any>,
   serviceType: 'producer' | 'consumer',
 ): EventFlowItem[] => {
@@ -95,6 +96,7 @@ export const inferEventFlow = (handlers: { name: string; handler: AbstractArvoEv
       for (const machine of handler.handler.registry.machines) {
         let events = extractEventFlow(machine.contracts.self, 'producer');
         for (const serviceContract of Object.values(machine.contracts.services)) {
+          // biome-ignore lint/suspicious/noExplicitAny: Needs to be general
           events = [...events, ...extractEventFlow(serviceContract as VersionedArvoContract<any, any>, 'consumer')];
         }
         flows.push({
