@@ -73,6 +73,7 @@ export function Navbar<T extends Record<string, NavButtonItem>>({
                     item.onClick?.();
                     toggleSidebar();
                   }}
+                  className={selectedOption !== 'key' ? '!text-on-surface' : undefined}
                 />
               ))}
           </div>

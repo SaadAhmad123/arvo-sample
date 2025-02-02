@@ -12,6 +12,7 @@ type ButtonParam = {
   disabled?: boolean;
   width?: 'full' | number;
   justifyContent?: 'start' | 'center' | 'end';
+  className?: string
 };
 
 export const Button: React.FC<ButtonParam> = (param) => {
@@ -32,7 +33,7 @@ export const Button: React.FC<ButtonParam> = (param) => {
   return (
     <button
       disabled={param.disabled}
-      className={`${baseStyle} ${variantStyles[param.variant ?? 'filled']} ${disabledStyle}`}
+      className={`${baseStyle} ${variantStyles[param.variant ?? 'filled']} ${disabledStyle} ${param.className ?? ''}`}
       type={param.type ?? 'button'}
       onClick={param.onClick}
       title={param.tooltip ?? param.title}

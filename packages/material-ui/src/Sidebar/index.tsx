@@ -23,8 +23,7 @@ export const Sidebar: React.FC<SidebarParam> = ({
 
   return (
     <Drawer
-      className='!bg-transparent !shadow-none'
-      open={show || false}
+      open={show ?? false}
       anchor={direction}
       onClose={onClickBackground}
     >
@@ -32,7 +31,7 @@ export const Sidebar: React.FC<SidebarParam> = ({
         className={
           className
             ? className
-            : 'h-screen overflow-y-auto w-full bg-surface-container-low text-on-surface rounded-r-2xl p-4'
+            : 'h-screen overflow-y-auto w-full bg-surface-container-low text-on-surface p-4'
         }
       >
         <div style={{ width: width ?? (windowSize.width > 1256 ? windowSize.width * 0.5 : windowSize.width * 0.9) }}>
