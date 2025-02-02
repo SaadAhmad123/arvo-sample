@@ -1,14 +1,14 @@
 'use client';
+import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined';
+import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
+import { Button } from '../Button';
 import { IconButton } from '../IconButtons/IconButton';
 import { NavButton } from '../NavButton';
-import type { NavButtonItem, NavbarParam } from './types';
-import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
-import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined';
-import { useToggle } from '../hooks';
-import { Sidebar } from '../Sidebar';
 import { Separator } from '../Separator';
+import { Sidebar } from '../Sidebar';
 import { Spinner } from '../Spinner';
-import { Button } from '../Button';
+import { useToggle } from '../hooks';
+import type { NavButtonItem, NavbarParam } from './types';
 
 export function Navbar<T extends Record<string, NavButtonItem>>({
   logo,

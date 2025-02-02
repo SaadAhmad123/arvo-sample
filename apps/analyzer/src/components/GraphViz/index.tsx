@@ -166,7 +166,11 @@ export const GraphViz: React.FC<IGraphViz> = ({
       );
 
     // Adjust force simulation parameters
-    graph.d3Force('charge').strength(-100000).distanceMin(1000).distanceMax(2000);
+    graph
+      .d3Force('charge')
+      .strength(-10000 * 10)
+      .distanceMin(1000)
+      .distanceMax(1500);
     graph.d3AlphaDecay(0.1);
 
     graphRef.current = graph;

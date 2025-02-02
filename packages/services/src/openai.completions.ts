@@ -136,6 +136,5 @@ export const openaiCompletions: EventHandlerFactory<
           },
         };
       },
-      '2.0.0': async ({ event }) => {},
     },
   });

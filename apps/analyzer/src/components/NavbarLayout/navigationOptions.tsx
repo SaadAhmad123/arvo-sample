@@ -11,9 +11,4 @@ export const navigationOptions: NavigationOption[] = [
     title: 'Home',
     icon: <HomeIcon />,
   },
-  {
-    link: '/about',
-    title: 'About',
-    icon: <HomeIcon />,
-  },
 ];

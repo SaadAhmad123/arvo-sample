@@ -1,98 +1,38 @@
 'use client';
 
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
 import {
   BlockSeparator,
+  Card,
   Container,
   ContentContainer,
   HeadingSeparator,
   ParagraphSeparator,
   PrimaryContainer,
+  Separator,
 } from '@repo/material-ui';
+import { useWindowSize } from '@repo/material-ui/hooks';
 import * as Orchestrators from '@repo/orchestrators';
 import * as Services from '@repo/services';
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
-import { v4 as uuid4 } from 'uuid';
-import type { GraphData, GraphEdge, GraphNode } from '../components/GraphViz/types';
-import { inferEventFlow } from '../utils/inferEventFlow';
-import type { EventFlow } from '../utils/inferEventFlow/types';
 import Image from 'next/image';
-import { useWindowSize } from '@repo/material-ui/hooks';
+import { useMemo } from 'react';
+import { inferServiceFlow } from '../utils/inferServiceFlow';
+import { generateGraphData } from '../utils/inferServiceFlow/generateGraphData';
 const GraphViz = dynamic(() => import('../components/GraphViz/index').then((item) => item.GraphViz), { ssr: false });
-
-const generateGraphData = (eventFlow: EventFlow[]): GraphData => {
-  const graphEdges: GraphEdge[] = [];
-
-  const nodeMap: Record<string, GraphNode> = Object.fromEntries(
-    eventFlow.map((item) => [
-      item.name,
-      {
-        group: item.group,
-        title: item.name,
-        id: uuid4(),
-        style: {
-          shape: 'box',
-          color: {
-            background: {
-              default: '#93cdff',
-            },
-          },
-        },
-      } as GraphNode,
-    ]),
-  );
-
-  const groupNodeMap: Record<string, GraphNode> = {};
-  for (const node of Object.values(nodeMap)) {
-    if (!groupNodeMap[node.group]) {
-      groupNodeMap[node.group] = {
-        id: uuid4(),
-        title: `Event Handler [${node.group}]`,
-        group: node.group,
-      } as GraphNode;
-    }
-    graphEdges.push({
-      source: groupNodeMap[node.group].id,
-      target: node.id,
-      title: 'Serves 1.0.0',
-      direction: 'bidirectional',
-      lineType: 'dotted',
-    });
-  }
-
-  for (const service of eventFlow) {
-    for (const event of service.events) {
-      if (event.contract.dataschema === service.name) continue;
-      if (!nodeMap[event.contract.dataschema].id) continue;
-      const source = event.flow === 'egress' ? nodeMap[service.name].id : nodeMap[event.contract.dataschema].id;
-      const target = event.flow === 'egress' ? nodeMap[event.contract.dataschema].id : nodeMap[service.name].id;
-      graphEdges.push({
-        direction: 'unidirectional',
-        title: event.type,
-        source: source,
-        target: target,
-        lineType: 'solid',
-      });
-    }
-  }
-
-  return {
-    nodes: [...Object.values(nodeMap), ...Object.values(groupNodeMap)],
-    edges: graphEdges,
-  };
-};
 
 export default function Home() {
   const serviceEventFlow = useMemo(
     () =>
-      inferEventFlow([
+      inferServiceFlow([
         ...Object.entries(Services).map(([name, handler]) => ({
-          name: `service.${name}`,
+          name: name,
           // biome-ignore lint/suspicious/noExplicitAny: We dont want to pass the original dependencies. We just want to create these
           handler: handler({} as any),
         })),
         ...Object.entries(Orchestrators).map(([name, handler]) => ({
-          name: `orchestrators.${name}`,
+          name: name,
           // biome-ignore lint/suspicious/noExplicitAny: We dont want to pass the original dependencies. We just want to create these
           handler: handler({} as any),
         })),
@@ -139,6 +79,17 @@ export default function Home() {
               and their contracts to build a real-time view of your service communication patterns. Below you can
               explore the generated graph showing how your services interact and communicate through events:
             </p>
+            <HeadingSeparator />
+            <Card>
+              <div className='flex flex-col sm:!flex-row items-start gap-4'>
+                <TipsAndUpdatesOutlinedIcon />
+                <p>
+                  This visualization represents logical service-to-service communication flows derived from your
+                  contracts and orchestrator definitions. It shows how services interact through events rather than the
+                  physical broker configuration or deployment topology
+                </p>
+              </div>
+            </Card>
           </>
         </ContentContainer>
       </Container>
@@ -154,13 +105,37 @@ export default function Home() {
         </div>
       </Container>
       <BlockSeparator />
+      <Container>
+        <div className='flex items-center justify-start gap-4 text-3xl sm:text-4xl font-bold'>
+          <InfoOutlinedIcon fontSize='large' />
+          <h1>About The View</h1>
+        </div>
+        <HeadingSeparator />
+        <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4'>
+          <Card>
+            <div className='w-full border-b-4 border-dotted border-on-surface my-4 max-w-[100px]' />
+            <Separator />
+            <p className='text-lg'>Dotted Lines: Internal Service Communication</p>
+            <br />
+            <p className='text'>
+              Dotted lines show how data flows within a service, connecting registered event handlers to the event
+              communication channel. Each handler interacts with the system through its defined contract interface,
+              ensuring type-safe and validated internal communication.
+            </p>
+          </Card>
+          <Card>
+            <div className='w-full border-b-4 border-on-surface my-4 max-w-[100px]' />
+            <p className='text-lg'>Solid Lines: Inter-Service Event Flow</p>
+            <br />
+            <p className='text'>
+              Solid lines represent event communication between services through the message broker. Each line shows a
+              one-way flow of ArvoEvents, with the receiving service validating each event against its contract before
+              processing. This ensures reliable and type-safe communication across service boundaries.
+            </p>
+          </Card>
+        </div>
+      </Container>
+      <BlockSeparator />
     </>
   );
 }
-
-/*
-
-        
-      </div>
-      <pre className='text-on-background'>{JSON.stringify(serviceEventFlow, null, 2)}</pre>
-*/

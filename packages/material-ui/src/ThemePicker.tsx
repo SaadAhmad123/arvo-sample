@@ -1,10 +1,10 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
-import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import { useEffect, useState } from 'react';
 import { FAB } from './FAB';
