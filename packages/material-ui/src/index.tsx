@@ -18,4 +18,4 @@ export { IconFilledButton } from './IconButtons/IconFilledButton';
 export { IconOutlineButton } from './IconButtons/IconOutlineButton';
 export { Sidebar } from './Sidebar';
 export type { SidebarParam } from './Sidebar';
-export { Separator } from './Separator';
+export { Separator, BlockSeparator, ParagraphSeparator, HeadingSeparator } from './Separator';

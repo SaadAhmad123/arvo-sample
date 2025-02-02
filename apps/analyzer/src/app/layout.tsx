@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${robotoFlex.variable} ${robotoSerif.variable} antialiased font-sans bg-surface-container-lowest text-on-surface-container`}
+        className={`${robotoFlex.variable} ${robotoSerif.variable} antialiased font-sans bg-surface-container-lowest text-on-surface`}
       >
         <NavbarLayout title={metadata.title?.toString() ?? 'Application'}>{children}</NavbarLayout>
         <ThemePicker />
