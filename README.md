@@ -44,6 +44,7 @@ View system analysis at `http://localhost:3000`
 
 Monitor system behavior with Jaeger:
 ```bash
+# In the .env file make `ENABLE_OTEL="TRUE"`
 npx just run_jaeger
 ```
 Access tracing at `http://localhost:16686`
