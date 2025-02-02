@@ -25,6 +25,7 @@ nvm use 19 # Skip if you have nodejs >= 19
 npm i -g pnpm # Install the package manager
 pnpm i # Install all dependencies
 npx just link # Build and links monorepo dependencies
+# Add the .env file in the project root as per the `.env.template` file
 ```
 
 ### Running Components
