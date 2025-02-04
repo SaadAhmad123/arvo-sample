@@ -124,7 +124,7 @@ export default function Home() {
           </div>
           <HeadingSeparator />
           <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
-            <Card elevation='low' shadow hoverable>
+            <Card>
               <div className='w-full border-b-4 border-dotted border-on-surface my-4 max-w-[100px]' />
               <Separator />
               <p className='text-lg'>Dotted Lines: Internal Service Communication</p>
