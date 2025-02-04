@@ -22,7 +22,6 @@ import { generateGraphData } from '../utils/inferServiceFlow/generateGraphData';
 import dynamic from 'next/dynamic';
 const GraphViz = dynamic(() => import('../components/GraphViz/index').then((item) => item.GraphViz), { ssr: false });
 
-
 export default function Home() {
   const serviceEventFlow = useMemo(
     () =>
@@ -60,7 +59,7 @@ export default function Home() {
           </PrimaryContainer>
           <div className='w-full relative min-h-[300px] xl:min-h-[400px]'>
             <Image
-              src='/graph-network-art-clipped.png'
+              src='/graph-network-art.png'
               alt='artwork-1'
               fill
               className='object-cover rounded-3xl'
