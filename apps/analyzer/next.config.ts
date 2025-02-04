@@ -2,11 +2,11 @@ import type { NextConfig } from 'next';
 import { webpack } from 'next/dist/compiled/webpack/webpack';
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  images: {
-    loader: 'custom',
-    loaderFile: './scripts/imageLoader.js',
-  },
+  // output: 'export',
+  // images: {
+  //   loader: 'custom',
+  //   loaderFile: './scripts/imageLoader.js',
+  // },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       // Provide polyfills for client-side

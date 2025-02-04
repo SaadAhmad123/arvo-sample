@@ -100,7 +100,7 @@ export default function Home() {
       <Container>
         <div className='flex items-center justify-center'>
           <div
-            className='flex h-[450px] sm:h-[500px] md:h-[900px] xl:h-[1000px] 2xl:h-[1200px] shadow-elevation-2 rounded-3xl overflow-hidden bg-surface-container-low'
+            className='flex h-[500px] md:h-[800px] xl:h-[1000px] shadow-elevation-2 rounded-3xl overflow-hidden bg-surface-container-low'
             style={{
               width:
                 windowSize.width < 760

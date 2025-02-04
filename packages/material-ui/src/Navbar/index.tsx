@@ -2,7 +2,7 @@
 import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import { Button } from '../Button';
-import { IconButton } from '../IconButtons/IconButton';
+import { IconButton } from '../Button/IconButton';
 import { NavButton } from '../NavButton';
 import { Separator } from '../Separator';
 import { Sidebar } from '../Sidebar';
@@ -40,12 +40,12 @@ export function Navbar<T extends Record<string, NavButtonItem>>({
       <div className='md:hidden items-center justify-between h-[56px]' />
       <div className='flex md:hidden items-center justify-between fixed top-0 h-[56px] w-screen bg-surface-container text-on-surface  px-4 z-50'>
         <div className='flex items-center gap-2'>
-          <IconButton icon={<MenuOutlinedIcon />} onClick={toggleSidebar} />
+          <IconButton icon={<MenuOutlinedIcon />} onClick={toggleSidebar} variant='text' />
           <h1 className='text-md font-bold'>{title}</h1>
         </div>
         <Sidebar show={showSidebar} onClickBackground={toggleSidebar}>
           <div className='flex items-center gap-2'>
-            <IconButton icon={<MenuOpenOutlinedIcon />} onClick={toggleSidebar} />
+            <IconButton icon={<MenuOpenOutlinedIcon />} onClick={toggleSidebar} variant='text' />
             <p>{title}</p>
           </div>
           <Separator />

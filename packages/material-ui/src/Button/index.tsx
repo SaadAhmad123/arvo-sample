@@ -3,7 +3,7 @@ import React from 'react';
 export type ButtonVariant = 'filled' | 'elevated' | 'tonal' | 'outlined' | 'text';
 
 type ButtonParam = {
-  title: string;
+  title?: string;
   type?: 'submit' | 'reset' | 'button';
   icon?: React.ReactNode;
   tooltip?: string;
@@ -30,6 +30,8 @@ export const Button: React.FC<ButtonParam> = (param) => {
   };
   const disabledStyle = param.disabled ? '' : '';
 
+  if (!param.icon && !param.title) return <></>;
+
   return (
     <button
       disabled={param.disabled}
@@ -43,7 +45,7 @@ export const Button: React.FC<ButtonParam> = (param) => {
       }}
     >
       {param.icon ? <span className='block'>{param.icon}</span> : <></>}
-      <span className='block text-left'>{param.title}</span>
+      {param.title ? <span className='block text-left'>{param.title}</span> : <></>}
     </button>
   );
 };

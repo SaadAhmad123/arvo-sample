@@ -1,14 +1,15 @@
 'use client';
 
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
-import { Button } from '@repo/material-ui';
+import { Button, IconButton } from '@repo/material-ui';
 import ForceGraph, { type NodeObject } from 'force-graph';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { drawBoxNode, drawRoundNode } from './drawMethods';
 import { calculateCurvedTextPosition, processEdgeCurvature } from './processEdgeCurvature';
 import type { ProcessedGraphEdge, TextPosition } from './processEdgeCurvature/types';
 import type { GraphNode, IGraphViz } from './types';
-import {DottedBackground} from './DottedBackground'
+import { DottedBackground } from './DottedBackground';
+import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
 
 export const GraphViz: React.FC<IGraphViz> = ({
   data,
@@ -17,6 +18,7 @@ export const GraphViz: React.FC<IGraphViz> = ({
   nodeSize = 24,
   backgroundColor = 'rgba(0,0,0,0)',
 }) => {
+  const [render, setRender] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<SVGSVGElement>(null);
   const graphRef = useRef(null);
@@ -29,6 +31,7 @@ export const GraphViz: React.FC<IGraphViz> = ({
   const curvatureMinMax = 0.15;
 
   useEffect(() => {
+    console.log({ render, message: 'Rendering the graph...' });
     if (!containerRef.current || !data?.nodes?.length || !data?.edges?.length) return;
     const processedEdges: ProcessedGraphEdge[] = processEdgeCurvature(data.edges, curvatureMinMax);
     // @ts-ignore
@@ -167,52 +170,53 @@ export const GraphViz: React.FC<IGraphViz> = ({
         },
       );
 
-    // Adjust force simulation parameters
     graph
       .d3Force('charge')
-      .strength(-10000 * 10)
+      .strength(-10000 * 8)
       .distanceMin(1000)
       .distanceMax(1500);
     graph.d3AlphaDecay(0.1);
-    
-    
-    graph.onZoom((transform: {k: number, x: number, y: number}) => {
+
+    graph.onZoom((transform: { k: number; x: number; y: number }) => {
       if (backgroundRef.current) {
         const pattern = backgroundRef.current.querySelector('#dotPattern');
         if (pattern) {
           const scale = transform.k;
           const translateX = -1 * transform.x;
           const translateY = -1 * transform.y;
-    
-          pattern.setAttribute(
-            'patternTransform',
-            `translate(${translateX} ${translateY}) scale(${scale})`
-          );
+
+          pattern.setAttribute('patternTransform', `translate(${translateX} ${translateY}) scale(${scale})`);
         }
       }
     });
-
-
 
     graphRef.current = graph;
     return () => {
       graph._destructor();
     };
-  }, [data, backgroundColor, nodeSize, onNodeClick, onLinkClick]);
+  }, [data, backgroundColor, nodeSize, onNodeClick, onLinkClick, render]);
 
   return (
-    <div className='relative flex-1 overflow-hidden'>
+    <div className='relative flex flex-1 overflow-hidden'>
       <div className='flex-1 overflow-hidden' ref={containerRef} />
       <DottedBackground ref={backgroundRef} />
-      <div className='absolute left-4 bottom-4'>
+      <div className='absolute left-4 bottom-4 flex items-center justify-start gap-2'>
+        <IconButton
+          icon={<RotateLeftIcon />}
+          variant='tonal'
+          tooltip='Refresh the graph'
+          onClick={() => {
+            setRender(!render);
+          }}
+        />
         <Button
           type='button'
-          variant='filled'
-          title='Reset'
-          icon={<RotateLeftIcon />}
+          variant='elevated'
+          title='Center'
+          icon={<CenterFocusStrongIcon />}
           onClick={() => {
             // @ts-ignore
-            graphRef.current?.zoomToFit(100, 10);
+            graphRef.current?.zoomToFit(1000, 100);
           }}
         />
       </div>

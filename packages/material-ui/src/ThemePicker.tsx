@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { FAB } from './FAB';
 import { MaterialThemeBuilder, type ThemeMode } from './utils';
+import { useKeyboardControl } from './hooks';
 
 const STORAGE_KEY = 'theme-preferences';
 const DEFAULT_PREFERENCES = {
@@ -95,6 +96,7 @@ export const ThemePicker = () => {
     setPreferences(newPreferences);
     storage.set(newPreferences);
     updateColorStyles(newPreferences.color, newPreferences.mode);
+    setIsOpen(false);
   };
 
   // Reset preferences to default
@@ -103,7 +105,12 @@ export const ThemePicker = () => {
     setSelectedTab('Mode');
     setPreferences(DEFAULT_PREFERENCES);
     updateColorStyles(DEFAULT_PREFERENCES.color, DEFAULT_PREFERENCES.mode);
+    setIsOpen(false);
   };
+
+  useKeyboardControl('KeyD', () => {
+    updatePreferences({ mode: preferences.mode === 'dark' ? 'light' : 'dark' });
+  });
 
   if (!mounted) return null;
 
@@ -228,6 +235,9 @@ export const ThemePicker = () => {
                 </p>
               </div>
             </div>
+            <pre className='hidden md:block text-xs text-center opacity-75 mt-2 bg-surface-container-low rounded-xl text-on-surface p-2'>
+              Shift + [Alt/Option] + D
+            </pre>
           </motion.div>
         )}
       </AnimatePresence>

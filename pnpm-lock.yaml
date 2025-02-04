@@ -77,9 +77,6 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
-      sharp:
-        specifier: ^0.33.5
-        version: 0.33.5
       uuid:
         specifier: ^11.0.5
         version: 11.0.5
@@ -102,6 +99,9 @@ importers:
       process:
         specifier: ^0.11.10
         version: 0.11.10
+      sharp:
+        specifier: ^0.33.5
+        version: 0.33.5
       tailwindcss:
         specifier: ^3.4.17
         version: 3.4.17(ts-node@10.9.2(@types/node@20.17.16)(typescript@5.7.3))
