@@ -8,15 +8,17 @@ import { drawBoxNode, drawRoundNode } from './drawMethods';
 import { calculateCurvedTextPosition, processEdgeCurvature } from './processEdgeCurvature';
 import type { ProcessedGraphEdge, TextPosition } from './processEdgeCurvature/types';
 import type { GraphNode, IGraphViz } from './types';
+import {DottedBackground} from './DottedBackground'
 
 export const GraphViz: React.FC<IGraphViz> = ({
   data,
   onNodeClick,
   onLinkClick,
   nodeSize = 24,
-  backgroundColor = '#fefefe',
+  backgroundColor = 'rgba(0,0,0,0)',
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const backgroundRef = useRef<SVGSVGElement>(null);
   const graphRef = useRef(null);
   const hoveredComponentRef = useRef({
     nodes: new Set<string>(),
@@ -159,7 +161,7 @@ export const GraphViz: React.FC<IGraphViz> = ({
           ctx.fillRect(-bckgDimensions[0] / 2, -bckgDimensions[1] / 2, bckgDimensions[0], bckgDimensions[1]);
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillStyle = link?.style?.color?.text ?? 'darkgrey';
+          ctx.fillStyle = link?.style?.color?.text ?? 'black';
           ctx.fillText(label, 0, 0);
           ctx.restore();
         },
@@ -172,6 +174,25 @@ export const GraphViz: React.FC<IGraphViz> = ({
       .distanceMin(1000)
       .distanceMax(1500);
     graph.d3AlphaDecay(0.1);
+    
+    
+    graph.onZoom((transform: {k: number, x: number, y: number}) => {
+      if (backgroundRef.current) {
+        const pattern = backgroundRef.current.querySelector('#dotPattern');
+        if (pattern) {
+          const scale = transform.k;
+          const translateX = -1 * transform.x;
+          const translateY = -1 * transform.y;
+    
+          pattern.setAttribute(
+            'patternTransform',
+            `translate(${translateX} ${translateY}) scale(${scale})`
+          );
+        }
+      }
+    });
+
+
 
     graphRef.current = graph;
     return () => {
@@ -181,7 +202,8 @@ export const GraphViz: React.FC<IGraphViz> = ({
 
   return (
     <div className='relative flex-1 overflow-hidden'>
-      <div className='flex-1 bg-black overflow-hidden' ref={containerRef} />
+      <div className='flex-1 overflow-hidden' ref={containerRef} />
+      <DottedBackground ref={backgroundRef} />
       <div className='absolute left-4 bottom-4'>
         <Button
           type='button'

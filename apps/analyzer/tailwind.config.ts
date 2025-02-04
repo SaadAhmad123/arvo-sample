@@ -15,6 +15,9 @@ const config: Config = {
         sans: ['var(--font-roboto-flex)', 'sans'],
         serif: ['var(--font-roboto-serif)', 'sans-serif'],
       },
+      screens: {
+        '2xl': '1760px',
+      },
     },
   },
   plugins: [],

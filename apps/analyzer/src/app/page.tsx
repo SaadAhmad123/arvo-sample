@@ -15,12 +15,13 @@ import {
 import { useWindowSize } from '@repo/material-ui/hooks';
 import * as Orchestrators from '@repo/orchestrators';
 import * as Services from '@repo/services';
-import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useMemo } from 'react';
 import { inferServiceFlow } from '../utils/inferServiceFlow';
 import { generateGraphData } from '../utils/inferServiceFlow/generateGraphData';
+import dynamic from 'next/dynamic';
 const GraphViz = dynamic(() => import('../components/GraphViz/index').then((item) => item.GraphViz), { ssr: false });
+
 
 export default function Home() {
   const serviceEventFlow = useMemo(
@@ -57,13 +58,16 @@ export default function Home() {
               <strong>systems architecture</strong>.
             </p>
           </PrimaryContainer>
-          <Image
-            alt='artwork-1'
-            src='/graph-network-art-clipped.png'
-            className='rounded-3xl h-full'
-            width={100000} // NextJS image sizeing issue
-            height={100000} // NextJS image sizeing issue
-          />
+          <div className='w-full relative min-h-[300px] xl:min-h-[400px]'>
+            <Image
+              src='/graph-network-art-clipped.png'
+              alt='artwork-1'
+              fill
+              className='object-cover rounded-3xl'
+              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+              priority
+            />
+          </div>
         </div>
         <BlockSeparator />
         <ContentContainer>
@@ -95,45 +99,54 @@ export default function Home() {
       </Container>
       <BlockSeparator />
       <Container>
-        <div
-          className='flex h-[450px] sm:h-[500px] md:h-[900px] xl:h-[1200px] shadow-elevation-2 rounded-3xl overflow-hidden'
-          style={{ width: windowSize.width < 760 ? windowSize.width - 20 : Math.min(windowSize.width - 120, 1760) }}
-        >
-          <div className='flex flex-1 z-0'>
-            <GraphViz data={graphData} nodeSize={56} backgroundColor='#f9f9f9 ' />
+        <div className='flex items-center justify-center'>
+          <div
+            className='flex h-[450px] sm:h-[500px] md:h-[900px] xl:h-[1000px] 2xl:h-[1200px] shadow-elevation-2 rounded-3xl overflow-hidden bg-surface-container-low'
+            style={{
+              width:
+                windowSize.width < 760
+                  ? windowSize.width - 20
+                  : Math.min(windowSize.width - 88 - 16, windowSize.width < 1760 ? 1200 : 1760),
+            }}
+          >
+            <div className='flex flex-1 z-0'>
+              <GraphViz data={graphData} nodeSize={56} />
+            </div>
           </div>
         </div>
       </Container>
       <BlockSeparator />
       <Container>
-        <div className='flex items-center justify-start gap-4 text-3xl sm:text-4xl font-bold'>
-          <InfoOutlinedIcon fontSize='large' />
-          <h1>About The View</h1>
-        </div>
-        <HeadingSeparator />
-        <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4'>
-          <Card>
-            <div className='w-full border-b-4 border-dotted border-on-surface my-4 max-w-[100px]' />
-            <Separator />
-            <p className='text-lg'>Dotted Lines: Internal Service Communication</p>
-            <br />
-            <p className='text'>
-              Dotted lines show how data flows within a service, connecting registered event handlers to the event
-              communication channel. Each handler interacts with the system through its defined contract interface,
-              ensuring type-safe and validated internal communication.
-            </p>
-          </Card>
-          <Card>
-            <div className='w-full border-b-4 border-on-surface my-4 max-w-[100px]' />
-            <p className='text-lg'>Solid Lines: Inter-Service Event Flow</p>
-            <br />
-            <p className='text'>
-              Solid lines represent event communication between services through the message broker. Each line shows a
-              one-way flow of ArvoEvents, with the receiving service validating each event against its contract before
-              processing. This ensures reliable and type-safe communication across service boundaries.
-            </p>
-          </Card>
-        </div>
+        <ContentContainer>
+          <div className='flex items-center justify-start gap-4 text-3xl sm:text-4xl font-bold'>
+            <InfoOutlinedIcon fontSize='large' />
+            <h1>About The View</h1>
+          </div>
+          <HeadingSeparator />
+          <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
+            <Card elevation='low' shadow hoverable>
+              <div className='w-full border-b-4 border-dotted border-on-surface my-4 max-w-[100px]' />
+              <Separator />
+              <p className='text-lg'>Dotted Lines: Internal Service Communication</p>
+              <br />
+              <p className='text'>
+                Dotted lines show how data flows within a service, connecting registered event handlers to the event
+                communication channel. Each handler interacts with the system through its defined contract interface,
+                ensuring type-safe and validated internal communication.
+              </p>
+            </Card>
+            <Card>
+              <div className='w-full border-b-4 border-on-surface my-4 max-w-[100px]' />
+              <p className='text-lg'>Solid Lines: Inter-Service Event Flow</p>
+              <br />
+              <p className='text'>
+                Solid lines represent event communication between services through the message broker. Each line shows a
+                one-way flow of ArvoEvents, with the receiving service validating each event against its contract before
+                processing. This ensures reliable and type-safe communication across service boundaries.
+              </p>
+            </Card>
+          </div>
+        </ContentContainer>
       </Container>
       <BlockSeparator />
     </>
