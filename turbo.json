@@ -2,6 +2,11 @@
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
+    "build:static": {
+      "dependsOn": ["^build", "^build:static"],
+      "outputs": ["dist/**", ".next/**", "out/**"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**"],

@@ -14,6 +14,14 @@ help:
 build:
     pnpm run build
 
+# Runs build for all the packages
+# And runs static build for NextJS apps 
+# which need static building. This is
+# defined in their package.json as `build:static`
+# script
+build_static:
+    pnpm run build:static
+
 # Run pnpm install
 install:
     pnpm install

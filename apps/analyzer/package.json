@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build; node scripts/ssg-image-optimizer.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build": "NEXT_CONFIG_FILE=next.config.ts next build",
+    "build:static": "NEXT_CONFIG_FILE=next.config.static.ts next build; node scripts/ssg-image-optimizer.js"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
