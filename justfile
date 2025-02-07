@@ -69,8 +69,14 @@ upgrade:
 upgrade_arvo:
   pnpm upgrade arvo-core arvo-event-handler arvo-xstate -r
 
-  # Run the Analyzer UI
+# Run the Analyzer UI
 run_analyzer: 
   pnpm run build --filter="@app/analyzer"
   pnpm i
   pnpm run dev --filter="@app/analyzer"
+
+# Run the Analyzer UI
+run_docs: 
+  pnpm run build --filter="@app/docs"
+  pnpm i
+  pnpm run dev --filter="@app/docs"

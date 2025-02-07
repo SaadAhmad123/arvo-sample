@@ -1,6 +1,10 @@
 import { Utils } from '@repo/material-ui';
 import type { Config } from 'tailwindcss';
 
+const defaultThemeBuilder = new Utils.MaterialThemeBuilder({ source: 'color', color: '#968f76' });
+const defaultMode: Utils.ThemeMode = 'light';
+const defaultTheme = defaultThemeBuilder.createTailwindVariables(defaultMode);
+
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,8 +13,8 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      colors: Utils.DEFAULT_TAILWIND_THEME.colors,
-      boxShadow: Utils.DEFAULT_TAILWIND_THEME.boxShadow,
+      colors: defaultTheme.colors,
+      boxShadow: defaultTheme.boxShadow,
       fontFamily: {
         sans: ['var(--font-roboto-flex)', 'sans'],
         serif: ['var(--font-roboto-serif)', 'sans-serif'],

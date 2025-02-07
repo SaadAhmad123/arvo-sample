@@ -9,7 +9,7 @@ export { NavButton } from './NavButton';
 export type { NavButtonItem, NavbarParam } from './Navbar/types';
 export { Navbar } from './Navbar';
 export { Spinner } from './Spinner';
-export { Container, ContentContainer, PrimaryContainer } from './Container';
+export { Container, ContentContainer, PrimaryContainer, PaddedContentContainer } from './Container';
 export type { ContainerParam } from './Container';
 export { Card } from './Cards/Card';
 export type { CardParam } from './Cards/Card';

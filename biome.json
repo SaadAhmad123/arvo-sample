@@ -7,7 +7,15 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["**/dist/**", "**/node_modules/**", "**/.turbo/**", "**/coverage/**", "**/.next/**", "**/public/**"]
+    "ignore": [
+      "**/dist/**",
+      "**/node_modules/**",
+      "**/.turbo/**",
+      "**/coverage/**",
+      "**/.next/**",
+      "**/public/**",
+      "**/out/**"
+    ]
   },
   "formatter": {
     "enabled": true,

@@ -6,18 +6,20 @@ import '@repo/material-ui/index.css';
 import { NavbarLayout } from '@/components/NavbarLayout';
 
 const robotoFlex = Roboto_Flex({
-  variable: '--font-roboto-flex',
   subsets: ['latin'],
+  variable: '--font-roboto-flex',
+  display: 'swap',
 });
 
 const robotoSerif = Roboto_Serif({
-  variable: '--font-roboto-serif',
   subsets: ['latin'],
+  variable: '--font-roboto-serif',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: 'System Analyzer',
-  description: 'This application provides a UI to the system analysis for Icarus',
+  title: 'Arvo',
+  description: 'A modern event driven architecture',
 };
 
 export default function RootLayout({
@@ -31,7 +33,7 @@ export default function RootLayout({
         className={`${robotoFlex.variable} ${robotoSerif.variable} antialiased font-sans bg-surface-container-lowest text-on-surface`}
       >
         <NavbarLayout title={metadata.title?.toString() ?? 'Application'}>{children}</NavbarLayout>
-        <ThemePicker />
+        <ThemePicker defaultPreferences={{ color: '#968f76', mode: 'light' }} />
       </body>
     </html>
   );

@@ -25,8 +25,8 @@ export const Button: React.FC<ButtonParam> = (param) => {
       'bg-surface-container-low text-primary shadow-elevation-1 hover:bg-primary hover:text-on-primary hover:shadow-elevation-3 active:bg-secondary active:text-on-secondary',
     tonal:
       'bg-secondary-container text-on-secondary-container hover:shadow-elevation-1 hover:bg-surface-variant active:shadow-none',
-    outlined: 'bg-transparent text-primary ring-1 ring-outline hover:bg-surface-container-high',
-    text: 'bg-transparent text-primary hover:bg-surface-container-high',
+    outlined: 'bg-transparent text-on-surface ring-1 ring-outline hover:bg-surface-container-high',
+    text: 'bg-transparent text-on-surface hover:bg-surface-container-high',
   };
   const disabledStyle = param.disabled ? '' : '';
 

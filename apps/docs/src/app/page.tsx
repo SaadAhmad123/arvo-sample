@@ -1,65 +1,52 @@
 'use client';
 
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import TipsAndUpdatesOutlinedIcon from '@mui/icons-material/TipsAndUpdatesOutlined';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import AutoModeIcon from '@mui/icons-material/AutoMode';
+import CodeIcon from '@mui/icons-material/Code';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import GroupsIcon from '@mui/icons-material/Groups';
+import MonitorHeartIcon from '@mui/icons-material/MonitorHeart';
+import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
+import SecurityIcon from '@mui/icons-material/Security';
+import ShieldIcon from '@mui/icons-material/Shield';
 import {
   BlockSeparator,
+  Button,
   Card,
   Container,
   ContentContainer,
   HeadingSeparator,
+  PaddedContentContainer,
   ParagraphSeparator,
   PrimaryContainer,
-  Separator,
 } from '@repo/material-ui';
-import { useWindowSize } from '@repo/material-ui/hooks';
-import * as Orchestrators from '@repo/orchestrators';
-import * as Services from '@repo/services';
 import Image from 'next/image';
-import { useMemo } from 'react';
-import { inferServiceFlow } from '../utils/inferServiceFlow';
-import { generateGraphData } from '../utils/inferServiceFlow/generateGraphData';
-import dynamic from 'next/dynamic';
-const GraphViz = dynamic(() => import('../components/GraphViz/index').then((item) => item.GraphViz), { ssr: false });
 
 export default function Home() {
-  const serviceEventFlow = useMemo(
-    () =>
-      inferServiceFlow([
-        ...Object.entries(Services).map(([name, handler]) => ({
-          name: name,
-          // biome-ignore lint/suspicious/noExplicitAny: We dont want to pass the original dependencies. We just want to create these
-          handler: handler({} as any),
-        })),
-        ...Object.entries(Orchestrators).map(([name, handler]) => ({
-          name: name,
-          // biome-ignore lint/suspicious/noExplicitAny: We dont want to pass the original dependencies. We just want to create these
-          handler: handler({} as any),
-        })),
-      ]),
-    [],
-  );
-
-  const graphData = useMemo(() => generateGraphData(serviceEventFlow), [serviceEventFlow]);
-  const windowSize = useWindowSize({ height: 20, width: 20 });
   return (
     <>
       <Container>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-2'>
           <PrimaryContainer>
-            <h1 className='text-5xl sm:text-6xl font-bold'>System Analyzer</h1>
+            <h1 className='text-5xl sm:text-6xl font-bold'>
+              <span className='text-secondary'>Meet,</span>
+              <span className='ml-2'>Arvo</span>
+            </h1>
             <HeadingSeparator />
             <p className='sm:text-lg'>
-              Arvo enables automatic system analysis by scanning <strong>service contracts</strong> and{' '}
-              <strong>orchestrator definitions</strong> to generate a complete map of your distributed system. Through{' '}
-              static analysis of contracts and event flows, it reveals the exact communication patterns and dependencies{' '}
-              between services, providing engineers and architects with a precise, code-derived understanding of their{' '}
-              <strong>systems architecture</strong>.
+              To build for event-driven systems that scale with your vision. Arvo gives you the foundation for reliable
+              event-driven communication, freeing your business logic to grow while deployment details fade into the
+              background.
             </p>
+            <div className='mt-8 flex gap-4'>
+              <Button variant='filled' title='Getting Started' />
+              <Button variant='outlined' title='View on GitHub' icon={<GitHubIcon />} />
+            </div>
           </PrimaryContainer>
           <div className='w-full relative min-h-[300px] xl:min-h-[400px]'>
             <Image
-              src='/graph-network-art.png'
+              src='/arvo-hero-artwork.webp'
               alt='artwork-1'
               fill
               className='object-cover rounded-3xl'
@@ -68,82 +55,150 @@ export default function Home() {
             />
           </div>
         </div>
-        <BlockSeparator />
-        <ContentContainer>
+      </Container>
+      <BlockSeparator />
+      <Container>
+        <PaddedContentContainer>
           <>
-            <h1 className='text-3xl sm:text-4xl font-bold'>Understand Your Service Communication Through Code</h1>
+            <h1 className='text-3xl sm:text-4xl font-bold'>
+              Build Applications Designed for Evolution and Reliability
+            </h1>
             <HeadingSeparator />
             <p>
-              Arvo reveals service relationships through its explicit contracts and orchestrator definitions, creating a
-              clear map of your distributed system. Every service interaction, event flow, and workflow dependency is
-              captured in your code, making system communication patterns visible and analyzable.
-              <ParagraphSeparator />
-              This static analysis tool reads these definitions directly from your codebase, traversing orchestrators
-              and their contracts to build a real-time view of your service communication patterns. Below you can
-              explore the generated graph showing how your services interact and communicate through events:
+              Today{"'"}s technology landscape moves at lightning speed, with new platforms, tools, and paradigms
+              emerging constantly. In this dynamic environment, your systems need to do more than just keep up – they
+              need to evolve and thrive. Event-driven architectures excel at adapting to change, but they face their own
+              challenges as systems grow more complex.
             </p>
-            <HeadingSeparator />
+            <ParagraphSeparator />
+            <p>
+              Arvo isn't just another framework &ndash; it's a fresh perspective on building evolutionary systems.
+              Whether you're scaling a startup or transforming an enterprise, Arvo offers something valuable: code you
+              can run, patterns you can adopt, or ideas that challenge how you think about event-driven architecture.
+              It's designed for teams who believe that great systems aren't just built &ndash; they evolve.
+            </p>
+          </>
+        </PaddedContentContainer>
+      </Container>
+      <BlockSeparator />
+      <Container>
+        <ContentContainer>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
             <Card>
-              <div className='flex flex-col sm:!flex-row items-start gap-4'>
-                <TipsAndUpdatesOutlinedIcon />
+              <div className='flex flex-col gap-4'>
+                <div className='flex items-center gap-2'>
+                  <AutoFixHighIcon className='text-secondary text-2xl' />
+                  <h3 className='text-xl font-bold'>Evolution Made Simple</h3>
+                </div>
                 <p>
-                  This visualization represents logical service-to-service communication flows derived from your
-                  contracts and orchestrator definitions. It shows how services interact through events rather than the
-                  physical broker configuration or deployment topology
+                  Arvo decouples your business logic from infrastructure concerns. Define features through versioned
+                  contracts and flexible interfaces, while your system adapts across deployments - from single process
+                  to serverless, without changing a line of business code.
                 </p>
               </div>
             </Card>
-          </>
+
+            <Card>
+              <div className='flex flex-col gap-4'>
+                <div className='flex items-center gap-2'>
+                  <ShieldIcon className='text-secondary text-2xl' />
+                  <h3 className='text-xl font-bold'>Rock-Solid Reliability</h3>
+                </div>
+                <p>
+                  Build with confidence using our broker-centric architecture. Every event follows a standardized format
+                  with guaranteed delivery. No more fragile point-to-point integrations - just clean, reliable
+                  communication between services.
+                </p>
+              </div>
+            </Card>
+
+            <Card>
+              <div className='flex flex-col gap-4'>
+                <div className='flex items-center gap-2'>
+                  <AccountTreeIcon className='text-secondary text-2xl' />
+                  <h3 className='text-xl font-bold'>Smart Orchestration</h3>
+                </div>
+                <p>
+                  Coordinate complex workflows without the complexity. Arvo's state machine-based orchestration, powered
+                  by XState, lets you manage sophisticated business processes while keeping services independent and
+                  maintainable.
+                </p>
+              </div>
+            </Card>
+          </div>
         </ContentContainer>
       </Container>
       <BlockSeparator />
       <Container>
-        <div className='flex items-center justify-center'>
-          <div
-            className='flex h-[500px] md:h-[800px] xl:h-[1000px] shadow-elevation-2 rounded-3xl overflow-hidden bg-surface-container-low'
-            style={{
-              width:
-                windowSize.width < 760
-                  ? windowSize.width - 20
-                  : Math.min(windowSize.width - 88 - 16, windowSize.width < 1760 ? 1200 : 1760),
-            }}
-          >
-            <div className='flex flex-1 z-0'>
-              <GraphViz data={graphData} nodeSize={56} />
-            </div>
-          </div>
-        </div>
-      </Container>
-      <BlockSeparator />
-      <Container>
         <ContentContainer>
-          <div className='flex items-center justify-start gap-4 text-3xl sm:text-4xl font-bold'>
-            <InfoOutlinedIcon fontSize='large' />
-            <h1>About The View</h1>
-          </div>
+          <h2 className='text-3xl font-bold'>What Makes Arvo Special?</h2>
           <HeadingSeparator />
-          <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
-            <Card>
-              <div className='w-full border-b-4 border-dotted border-on-surface my-4 max-w-[100px]' />
-              <Separator />
-              <p className='text-lg'>Dotted Lines: Internal Service Communication</p>
-              <br />
-              <p className='text'>
-                Dotted lines show how data flows within a service, connecting registered event handlers to the event
-                communication channel. Each handler interacts with the system through its defined contract interface,
-                ensuring type-safe and validated internal communication.
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
+            <div className='flex flex-col gap-4'>
+              <div className='flex items-center gap-2'>
+                <CodeIcon className='text-secondary text-xl' />
+                <h3 className='text-lg font-bold'>Type-Safe Contracts</h3>
+              </div>
+              <p>
+                Define your event interfaces with full type safety using Zod schemas. Catch contract violations at
+                compile time, ensuring reliable communication between services.
               </p>
-            </Card>
-            <Card>
-              <div className='w-full border-b-4 border-on-surface my-4 max-w-[100px]' />
-              <p className='text-lg'>Solid Lines: Inter-Service Event Flow</p>
-              <br />
-              <p className='text'>
-                Solid lines represent event communication between services through the message broker. Each line shows a
-                one-way flow of ArvoEvents, with the receiving service validating each event against its contract before
-                processing. This ensures reliable and type-safe communication across service boundaries.
+            </div>
+
+            <div className='flex flex-col gap-4'>
+              <div className='flex items-center gap-2'>
+                <AutoModeIcon className='text-secondary text-xl' />
+                <h3 className='text-lg font-bold'>Flexible Deployment</h3>
+              </div>
+              <p>
+                Deploy how you want - single process, containers, microservices, or serverless. Your business logic
+                remains unchanged while Arvo handles the infrastructure details.
               </p>
-            </Card>
+            </div>
+
+            <div className='flex flex-col gap-4'>
+              <div className='flex items-center gap-2'>
+                <MonitorHeartIcon className='text-secondary text-xl' />
+                <h3 className='text-lg font-bold'>Built-in Observability</h3>
+              </div>
+              <p>
+                Debug with confidence using OpenTelemetry integration. Track events across services, monitor
+                performance, and quickly identify issues in your workflows.
+              </p>
+            </div>
+
+            <div className='flex flex-col gap-4'>
+              <div className='flex items-center gap-2'>
+                <SecurityIcon className='text-secondary text-xl' />
+                <h3 className='text-lg font-bold'>Enterprise Ready</h3>
+              </div>
+              <p>
+                Built for business-critical applications with features like access control, audit trails, and
+                comprehensive error handling baked in from the start.
+              </p>
+            </div>
+
+            <div className='flex flex-col gap-4'>
+              <div className='flex items-center gap-2'>
+                <PrecisionManufacturingIcon className='text-secondary text-xl' />
+                <h3 className='text-lg font-bold'>Standards Based</h3>
+              </div>
+              <p>
+                Built on proven standards like CloudEvents and XState. Leverage existing tools and knowledge while
+                getting the benefits of Arvo's enhancements.
+              </p>
+            </div>
+
+            <div className='flex flex-col gap-4'>
+              <div className='flex items-center gap-2'>
+                <GroupsIcon className='text-secondary text-xl' />
+                <h3 className='text-lg font-bold'>Developer Experience</h3>
+              </div>
+              <p>
+                Enjoy a first-class developer experience with clear contracts, helpful error messages, and comprehensive
+                documentation to keep your team productive.
+              </p>
+            </div>
           </div>
         </ContentContainer>
       </Container>

@@ -15,11 +15,11 @@ import {
 import { useWindowSize } from '@repo/material-ui/hooks';
 import * as Orchestrators from '@repo/orchestrators';
 import * as Services from '@repo/services';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useMemo } from 'react';
 import { inferServiceFlow } from '../utils/inferServiceFlow';
 import { generateGraphData } from '../utils/inferServiceFlow/generateGraphData';
-import dynamic from 'next/dynamic';
 const GraphViz = dynamic(() => import('../components/GraphViz/index').then((item) => item.GraphViz), { ssr: false });
 
 export default function Home() {

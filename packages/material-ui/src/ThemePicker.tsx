@@ -6,14 +6,14 @@ import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FAB } from './FAB';
-import { MaterialThemeBuilder, type ThemeMode } from './utils';
 import { useKeyboardControl } from './hooks';
+import { MaterialThemeBuilder, type ThemeMode } from './utils';
 
 const STORAGE_KEY = 'theme-preferences';
 const DEFAULT_PREFERENCES = {
-  color: '#bbb7be',
+  color: '#95A5A6',
   mode: 'dark' as ThemeMode,
 };
 
@@ -70,14 +70,19 @@ const PRESET_COLORS = [
   '#95A5A6',
 ];
 
-export const ThemePicker = () => {
+type ThemePickerParams = {
+  defaultPreferences?: typeof DEFAULT_PREFERENCES;
+};
+
+export const ThemePicker: React.FC<ThemePickerParams> = ({ defaultPreferences = DEFAULT_PREFERENCES }) => {
   const tabs = ['Preset', 'Custom', 'Mode'] as const;
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const [selectedTab, setSelectedTab] = useState<(typeof tabs)[number]>('Mode');
-  const [preferences, setPreferences] = useState<typeof DEFAULT_PREFERENCES>(DEFAULT_PREFERENCES);
+  const [preferences, setPreferences] = useState<typeof defaultPreferences>(defaultPreferences);
 
+  // biome-ignore  lint/correctness/useExhaustiveDependencies: this is by design
   useEffect(() => {
     // Initialize preferences and apply theme
     const stored = storage.get();
@@ -85,13 +90,13 @@ export const ThemePicker = () => {
       setPreferences(stored);
       updateColorStyles(stored.color, stored.mode);
     } else {
-      updateColorStyles(DEFAULT_PREFERENCES.color, DEFAULT_PREFERENCES.mode);
+      updateColorStyles(defaultPreferences.color, defaultPreferences.mode);
     }
     setMounted(true);
   }, []);
 
   // Handle preferences updates
-  const updatePreferences = (updates: Partial<typeof DEFAULT_PREFERENCES>) => {
+  const updatePreferences = (updates: Partial<typeof defaultPreferences>) => {
     const newPreferences = { ...preferences, ...updates };
     setPreferences(newPreferences);
     storage.set(newPreferences);
@@ -103,8 +108,8 @@ export const ThemePicker = () => {
   const resetPreferences = () => {
     storage.clear();
     setSelectedTab('Mode');
-    setPreferences(DEFAULT_PREFERENCES);
-    updateColorStyles(DEFAULT_PREFERENCES.color, DEFAULT_PREFERENCES.mode);
+    setPreferences(defaultPreferences);
+    updateColorStyles(defaultPreferences.color, defaultPreferences.mode);
     setIsOpen(false);
   };
 

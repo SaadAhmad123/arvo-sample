@@ -9,6 +9,7 @@ type DottedBackgroundProps = {
 export const DottedBackground = forwardRef<SVGSVGElement, DottedBackgroundProps>(({ size = 20 }, ref) => {
   return (
     <svg ref={ref} className='absolute inset-0 w-full h-full -z-10' xmlns='http://www.w3.org/2000/svg'>
+      <title>Dotted background</title>
       <pattern
         id='dotPattern'
         x='0'

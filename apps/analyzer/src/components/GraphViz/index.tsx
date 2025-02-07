@@ -1,15 +1,15 @@
 'use client';
 
+import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import { Button, IconButton } from '@repo/material-ui';
 import ForceGraph, { type NodeObject } from 'force-graph';
 import React, { useEffect, useRef, useState } from 'react';
+import { DottedBackground } from './DottedBackground';
 import { drawBoxNode, drawRoundNode } from './drawMethods';
 import { calculateCurvedTextPosition, processEdgeCurvature } from './processEdgeCurvature';
 import type { ProcessedGraphEdge, TextPosition } from './processEdgeCurvature/types';
 import type { GraphNode, IGraphViz } from './types';
-import { DottedBackground } from './DottedBackground';
-import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
 
 export const GraphViz: React.FC<IGraphViz> = ({
   data,
