@@ -6,24 +6,29 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     },
     "./genaiModels": {
+      "types": "./dist/genaiModels.d.ts",
       "import": "./dist/genaiModels.js",
-      "types": "./dist/genaiModels.d.ts"
+      "require": "./dist/genaiModels.js"
     },
     "./services": {
+      "types": "./dist/services/index.d.ts",
       "import": "./dist/services/index.js",
-      "types": "./dist/services/index.d.ts"
+      "require": "./dist/services/index.js"
     },
     "./orchestrators": {
+      "types": "./dist/orchestrators/index.d.ts",
       "import": "./dist/orchestrators/index.js",
-      "types": "./dist/orchestrators/index.d.ts"
+      "require": "./dist/orchestrators/index.js"
     },
     "./streams": {
+      "types": "./dist/streams/index.d.ts",
       "import": "./dist/streams/index.js",
-      "types": "./dist/streams/index.d.ts"
+      "require": "./dist/streams/index.js"
     }
   },
   "scripts": {

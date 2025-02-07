@@ -6,12 +6,14 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     },
     "./commons": {
+      "types": "./dist/commons/index.d.ts",
       "import": "./dist/commons/index.js",
-      "types": "./dist/commons/index.d.ts"
+      "require": "./dist/commons/index.js"
     }
   },
   "scripts": {

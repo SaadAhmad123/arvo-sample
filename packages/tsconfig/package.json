@@ -5,10 +5,5 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "arvo-core": "^2.2.10",
-    "arvo-event-handler": "^2.2.10",
-    "arvo-xstate": "^2.2.10"
   }
 }
