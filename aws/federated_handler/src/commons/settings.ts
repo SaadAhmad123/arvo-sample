@@ -4,7 +4,7 @@ dotenv.config({
   path: '../../.env',
 });
 
-export const settings = async () => {
+export const settingsLoader = async () => {
   const env: NodeJS.ProcessEnv = process.env;
   return {
     OPENAI_API_KEY: env?.OPENAI_API_KEY ?? '',

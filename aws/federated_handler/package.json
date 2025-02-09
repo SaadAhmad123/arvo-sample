@@ -14,7 +14,8 @@
   "scripts": {
     "build": "tsup && tsx scripts/generateEventDestinations.ts",
     "dev": "tsx watch src/index.ts",
-    "start": "tsc && node dist/index.js",
+    "gen_test_events": "tsx scripts/createTestEvents.ts",
+    "start": "tsc && node dist/index.cjs",
     "test": "jest --passWithNoTests --runInBand --detectOpenHandles --forceExit",
     "test:watch": "concurrently \"tsc --watch --preserveWatchOutput\" \"jest --watch\" -n \"tsc,jest\" -c \"blue,green\""
   },
