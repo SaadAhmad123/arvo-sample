@@ -27,7 +27,7 @@
     "@material/material-color-utilities": "^0.3.0",
     "@mui/icons-material": "^6.4.2",
     "@mui/material": "^6.4.2",
-    "@repo/tsconfig": "workspace:*",
+    "@repo/build-config": "workspace:*",
     "@repo/utilities": "workspace:*",
     "arvo-core": "^2.2.10",
     "arvo-event-handler": "^2.2.10",

@@ -12,7 +12,7 @@
  * inclusion for type checking while still excluding them from builds.
  */
 {
-  "extends": "@repo/tsconfig/base.json",
+  "extends": "@repo/build-config/base.json",
   "compilerOptions": {
     "noEmit": true
   },

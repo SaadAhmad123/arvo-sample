@@ -17,7 +17,7 @@
     "@repo/material-ui": "workspace:*",
     "@repo/orchestrators": "workspace:*",
     "@repo/services": "workspace:*",
-    "@repo/tsconfig": "workspace:*",
+    "@repo/build-config": "workspace:*",
     "@repo/utilities": "workspace:*",
     "arvo-core": "^2.2.10",
     "arvo-event-handler": "^2.2.10",
