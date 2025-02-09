@@ -11,7 +11,6 @@ export default defineConfig({
   dts: false,
   outDir: 'dist',
   noExternal: [/.*/],
-  external: [/@aws-sdk\/*/],
   treeshake: true,
   splitting: false,
   outExtension: ({ format }) => ({
