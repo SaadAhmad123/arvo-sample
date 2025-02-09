@@ -1,5 +1,5 @@
 {
-  "extends": "@repo/build-config/tsconfig/aws.lambda.json",
+  "extends": "@repo/tsconfig/aws.lambda.json",
   "compilerOptions": {
     "declarationMap": false,
     "outDir": "./dist",

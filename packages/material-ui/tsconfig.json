@@ -1,5 +1,5 @@
 {
-  "extends": "@repo/build-config/tsconfig/react.ui.json",
+  "extends": "@repo/tsconfig/react.ui.json",
   "compilerOptions": {
     "incremental": null,
     "jsx": "react-jsx",

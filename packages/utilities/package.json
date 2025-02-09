@@ -19,7 +19,7 @@
   "author": "Saad Ahmad <saadkwi12@hotmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "@repo/build-config": "workspace:*",
+    "@repo/tsconfig": "workspace:*",
     "tsup": "^8.3.6"
   },
   "dependencies": {
