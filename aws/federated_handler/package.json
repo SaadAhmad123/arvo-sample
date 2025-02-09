@@ -12,7 +12,7 @@
     }
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsx scripts/generateEventDestinations.ts",
     "dev": "tsx watch src/index.ts",
     "start": "tsc && node dist/index.js",
     "test": "jest --passWithNoTests --runInBand --detectOpenHandles --forceExit",

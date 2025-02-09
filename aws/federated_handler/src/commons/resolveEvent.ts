@@ -5,19 +5,13 @@ import * as Services from '@repo/services';
 import type { ArvoEvent } from 'arvo-core';
 import type { IMachineMemory, MachineMemoryRecord } from 'arvo-xstate';
 
-type ResolveEventParam = {
-  event: ArvoEvent;
+type BuildEventResolver = {
   memory: IMachineMemory<MachineMemoryRecord>;
   settingsLoader: () => Promise<ServiceSettings>;
   streamer?: (event: ArvoEvent) => Promise<void>;
 };
 
-export const resolveEvent = async ({
-  event,
-  memory,
-  settingsLoader,
-  streamer,
-}: ResolveEventParam): Promise<ArvoEvent[]> => {
+export const buildEventResolver = ({ memory, settingsLoader, streamer }: BuildEventResolver) => {
   const handlers = [
     ...Object.values(Services).map((item) => item({ settings: settingsLoader, streamer })),
     ...Object.values(Orchestrators).map((item) => item(memory)),
@@ -26,6 +20,12 @@ export const resolveEvent = async ({
   for (const handler of handlers) {
     handlerRegistry.set(handler.source, handler);
   }
-  const resolvedHandler = handlerRegistry.get(event.to ?? event.source);
-  return (await resolvedHandler?.execute(event, { inheritFrom: 'EVENT' })) ?? [];
+
+  return {
+    listensTo: Array.from(handlerRegistry.keys()),
+    execute: async (event: ArvoEvent): Promise<ArvoEvent[]> => {
+      const resolvedHandler = handlerRegistry.get(event.to ?? event.source);
+      return (await resolvedHandler?.execute(event, { inheritFrom: 'EVENT' })) ?? [];
+    },
+  };
 };

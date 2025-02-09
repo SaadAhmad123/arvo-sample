@@ -8,7 +8,7 @@ export default defineConfig({
   clean: true,
   bundle: true,
   minify: true,
-  dts: false,
+  dts: true,
   outDir: 'dist',
   noExternal: [/.*/],
   treeshake: true,
