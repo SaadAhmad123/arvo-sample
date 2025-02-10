@@ -1,6 +1,6 @@
-import { createArvoEventFactory } from 'arvo-core';
 import { arvoToEventBridgeEvent } from '@aws/utilities';
 import { llmOrchestrator } from '@repo/contracts/orchestrators';
+import { createArvoEventFactory } from 'arvo-core';
 
 console.log(
   JSON.stringify(

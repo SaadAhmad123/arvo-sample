@@ -1,6 +1,6 @@
-import type { EventBridgeEvent } from 'aws-lambda';
-import type { ArvoEvent } from 'arvo-core';
 import { arvoToEventBridgeEvent, eventBridgeToArvoEvent, isEventBridgeEvent } from '@aws/utilities';
+import type { ArvoEvent } from 'arvo-core';
+import type { EventBridgeEvent } from 'aws-lambda';
 import { EventResolver } from 'src/EventResolver.js';
 
 type LambdaEvent = EventBridgeEvent<string, unknown>;

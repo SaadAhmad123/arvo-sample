@@ -1,6 +1,6 @@
-import { EventResolver } from '../src/EventResolver';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { EventResolver } from '../src/EventResolver';
 
 /**
  * Generates a JSON file containing all event destinations that the EventResolver listens to.

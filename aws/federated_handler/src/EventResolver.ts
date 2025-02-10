@@ -1,7 +1,7 @@
+import { DynamoMachineMemory, getRuntimeEnvironment } from '@aws/utilities';
+import { SimpleMachineMemory } from 'arvo-xstate';
 import { buildEventResolver } from './commons/resolveEvent.js';
 import { settingsLoader } from './commons/settings.js';
-import { SimpleMachineMemory } from 'arvo-xstate';
-import { DynamoMachineMemory, getRuntimeEnvironment } from '@aws/utilities';
 
 export const EventResolver = buildEventResolver({
   memory: getRuntimeEnvironment().isLambda
