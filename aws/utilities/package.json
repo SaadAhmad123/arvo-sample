@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.744.0",
+    "@aws-sdk/client-eventbridge": "^3.744.0",
     "@aws-sdk/lib-dynamodb": "^3.744.0",
     "arvo-core": "^2.2.10",
     "arvo-xstate": "^2.2.10",
