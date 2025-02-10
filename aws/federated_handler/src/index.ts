@@ -1,11 +1,10 @@
-import { arvoToEventBridgeEvent, eventBridgeToArvoEvent, isEventBridgeEvent } from '@aws/utilities';
+import { arvoToEventBridgeEvent, eventBridgeToArvoEvent, isEventBridgeEvent, sendToEventBus } from '@aws/utilities';
 import type { ArvoEvent } from 'arvo-core';
 import type { EventBridgeEvent } from 'aws-lambda';
 import { EventResolver } from 'src/EventResolver.js';
+import { envVars } from 'src/commons/envVars.js';
 
-type LambdaEvent = EventBridgeEvent<string, unknown>;
-
-export const handler = async (event: LambdaEvent): Promise<EventBridgeEvent<string, ArvoEvent>[] | undefined> => {
+export const handler = async (event: EventBridgeEvent<string, unknown>): Promise<EventBridgeEvent<string, ArvoEvent>[] | undefined> => {
   try {
     let arvoEvent: ArvoEvent | null = null;
     if (isEventBridgeEvent(event)) {
@@ -17,8 +16,14 @@ export const handler = async (event: LambdaEvent): Promise<EventBridgeEvent<stri
       );
       return;
     }
-    const resolvedEvent = await EventResolver.execute(arvoEvent);
-    return resolvedEvent.map(arvoToEventBridgeEvent);
+    const resolvedEvents = await EventResolver.execute(arvoEvent);
+    const eventbridgeEvents = resolvedEvents.map(arvoToEventBridgeEvent);
+
+    if (envVars.IS_LAMBDA) {
+      await sendToEventBus(resolvedEvents, envVars.EVENT_BRIDGE_NAME);
+    }
+
+    return eventbridgeEvents;
   } catch (error) {
     console.error('Error processing event:', error);
     throw error;

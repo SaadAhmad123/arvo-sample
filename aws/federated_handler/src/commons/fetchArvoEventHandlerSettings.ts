@@ -4,7 +4,7 @@ dotenv.config({
   path: '../../.env',
 });
 
-export const settingsLoader = async () => {
+export const fetchArvoEventHandlerSettings = async () => {
   const env: NodeJS.ProcessEnv = process.env;
   return {
     OPENAI_API_KEY: env?.OPENAI_API_KEY ?? '',
