@@ -15,6 +15,7 @@
     "concurrently": "^9.1.2",
     "just-install": "^2.0.2",
     "ts-node": "^10.9.2",
+    "tsup": "^8.3.6",
     "turbo": "^2.3.4",
     "typescript": "5.5.4"
   },

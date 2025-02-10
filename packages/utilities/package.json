@@ -6,20 +6,21 @@
   "type": "module",
   "exports": {
     ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
     }
   },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch --preserveWatchOutput"
+    "build": "tsup",
+    "dev": "tsup --watch"
   },
   "keywords": [],
   "author": "Saad Ahmad <saadkwi12@hotmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "@repo/tsconfig": "workspace:*"
+    "@repo/tsconfig": "workspace:*",
+    "tsup": "^8.3.6"
   },
   "dependencies": {
     "@material/material-color-utilities": "^0.3.0",

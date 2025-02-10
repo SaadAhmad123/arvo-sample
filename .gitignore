@@ -4,3 +4,4 @@ dist
 .env
 coverage
 .test_build
+*.tfvars
