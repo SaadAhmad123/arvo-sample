@@ -14,9 +14,9 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsx watch src/index.ts",
-    "start": "tsc && node dist/index.js",
+    "start": "tsup && node dist/index.js",
     "test": "jest --passWithNoTests --runInBand --detectOpenHandles --forceExit",
-    "test:watch": "concurrently \"tsc --watch --preserveWatchOutput\" \"jest --watch\" -n \"tsc,jest\" -c \"blue,green\""
+    "test:watch": "concurrently \"tsup --watch --preserveWatchOutput\" \"jest --watch\" -n \"tsup,jest\" -c \"blue,green\""
   },
   "keywords": [],
   "author": "Saad Ahmad <saadkwi12@hotmail.com>",
